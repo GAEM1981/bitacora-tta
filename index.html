@@ -1,0 +1,1773 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitácora de Atención Tutorial</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f2f4f7;
+            color: #333;
+        }
+
+        header {
+            background: #76232f;
+            color: white;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .encabezado {
+            max-width: 1400px;
+            margin: auto;
+        }
+
+        header h1 {
+            font-size: 27px;
+            margin-bottom: 7px;
+        }
+
+        header p {
+            opacity: 0.9;
+        }
+
+        main {
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .tarjeta {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 3px 14px rgba(0,0,0,0.08);
+        }
+
+        .tarjeta h2 {
+            color: #76232f;
+            margin-bottom: 22px;
+        }
+
+        .grid-form {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .campo {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .campo label {
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        input,
+        select,
+        textarea {
+            padding: 12px;
+            border: 1px solid #bbb;
+            border-radius: 7px;
+            font-size: 15px;
+            background: white;
+            width: 100%;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border: 2px solid #76232f;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        .campo-completo {
+            margin-top: 25px;
+        }
+
+        .seccion-actividades {
+            margin-top: 30px;
+        }
+
+        .seccion-actividades h3 {
+            color: #76232f;
+            margin-bottom: 6px;
+        }
+
+        .instruccion {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .actividades {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .actividad {
+            display: flex;
+            align-items: center;
+            background: #f7f7f7;
+            padding: 13px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .actividad:hover {
+            background: #f5e9eb;
+            border-color: #76232f;
+        }
+
+        .actividad input {
+            width: auto;
+            margin-right: 10px;
+            transform: scale(1.3);
+        }
+
+        .botones {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        button {
+            border: none;
+            border-radius: 7px;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .btn-guardar {
+            background: #76232f;
+            color: white;
+        }
+
+        .btn-guardar:hover {
+            background: #531821;
+        }
+
+        .btn-cancelar {
+            background: #777;
+            color: white;
+        }
+
+        .btn-editar {
+            background: #d89d18;
+            color: white;
+            padding: 8px 12px;
+            margin: 2px;
+        }
+
+        .btn-eliminar {
+            background: #c0392b;
+            color: white;
+            padding: 8px 12px;
+            margin: 2px;
+        }
+
+        .btn-secundario {
+            background: #444;
+            color: white;
+        }
+
+        .oculto {
+            display: none;
+        }
+
+        #mensaje {
+            margin-top: 20px;
+        }
+
+        .mensaje-exito {
+            background: #d4edda;
+            color: #155724;
+            padding: 13px;
+            border-radius: 7px;
+            border: 1px solid #c3e6cb;
+        }
+
+        .mensaje-error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 13px;
+            border-radius: 7px;
+            border: 1px solid #f5c6cb;
+        }
+
+        .titulo-registros {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .contador {
+            background: #76232f;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 20px;
+        }
+
+        .filtros {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .boton-filtro {
+            justify-content: flex-end;
+        }
+
+        .tabla-contenedor {
+            overflow-x: auto;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            min-width: 1150px;
+        }
+
+        thead {
+            background: #76232f;
+            color: white;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        tbody tr:hover {
+            background: #f8f8f8;
+        }
+
+        .actividad-etiqueta {
+            display: inline-block;
+            background: #f1e5e7;
+            color: #76232f;
+            padding: 5px 8px;
+            margin: 2px;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+
+        .sin-registros {
+            text-align: center;
+            padding: 30px;
+            color: #777;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 1000px) {
+            .filtros {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 700px) {
+            .grid-form,
+            .actividades,
+            .filtros {
+                grid-template-columns: 1fr;
+            }
+
+            .titulo-registros {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .botones {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+
+            header h1 {
+                font-size: 21px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="encabezado">
+        <h1>BITÁCORA DE ATENCIÓN TUTORIAL</h1>
+        <p>Registro de actividades desarrolladas por TTA</p>
+    </div>
+</header>
+
+<main>
+
+    <section class="tarjeta">
+
+        <h2>Nuevo registro</h2>
+
+        <form id="formBitacora">
+
+            <input type="hidden" id="registroId">
+
+            <div class="grid-form">
+
+                <div class="campo">
+                    <label for="fecha">Fecha</label>
+                    <input type="date" id="fecha" required>
+                </div>
+
+               <div class="campo">
+    <label for="tta">Nombre del TTA</label>
+
+    <select id="tta" required>
+        <option value="">Seleccione un TTA</option>
+
+        <option value="MTRO. MIGUEL ANGEL GAYTAN ESPINOSA">
+            MTRO. MIGUEL ANGEL GAYTAN ESPINOSA
+        </option>
+
+        <option value="LIC. MIGUEL ANGEL FLORES BLANCO">
+            LIC. MIGUEL ANGEL FLORES BLANCO
+        </option>
+    </select>
+</div>
+
+                <div class="campo">
+                    <label for="grupo">Grupo</label>
+
+                    <select id="grupo" required>
+                        <option value="">Seleccione un grupo</option>
+
+                        <option>101</option>
+                        <option>102</option>
+                        <option>103</option>
+                        <option>104</option>
+                        <option>105</option>
+                        <option>106</option>
+                        <option>107</option>
+                        <option>108</option>
+
+                        <option>111</option>
+                        <option>112</option>
+                        <option>113</option>
+                        <option>114</option>
+                        <option>115</option>
+                        <option>116</option>
+
+                        <option>301</option>
+                        <option>302</option>
+                        <option>303</option>
+                        <option>304</option>
+                        <option>305</option>
+                        <option>306</option>
+
+                        <option>311</option>
+                        <option>312</option>
+                        <option>313</option>
+                        <option>314</option>
+
+                        <option>501</option>
+                        <option>502</option>
+                        <option>503</option>
+                        <option>504</option>
+                        <option>505</option>
+                        <option>506</option>
+
+                        <option>511</option>
+                        <option>512</option>
+                        <option>513</option>
+                        <option>514</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label for="alumno">
+                        Nombre del alumno
+                    </label>
+
+                    <input
+                        type="text"
+                        id="alumno"
+                        placeholder="Nombre completo del alumno"
+                    >
+                </div>
+
+            </div>
+
+
+            <div class="seccion-actividades">
+
+                <h3>Actividad realizada</h3>
+
+                <p class="instruccion">
+                    Puede seleccionar una o varias actividades.
+                </p>
+
+                <div class="actividades">
+
+                    <label class="actividad">
+                        <input
+                            type="checkbox"
+                            name="actividad"
+                            value="Tutoría académica individual"
+                        >
+                        Tutoría académica individual
+                    </label>
+
+                    <label class="actividad">
+                        <input
+                            type="checkbox"
+                            name="actividad"
+                            value="Tutoría académica grupal"
+                        >
+                        Tutoría académica grupal
+                    </label>
+
+                    <label class="actividad">
+                        <input
+                            type="checkbox"
+                            name="actividad"
+                            value="Atención a tutor"
+                        >
+                        Atención a tutor
+                    </label>
+
+                    <label class="actividad">
+                        <input
+                            type="checkbox"
+                            name="actividad"
+                            value="Atención a alumno"
+                        >
+                        Atención a alumno
+                    </label>
+
+                    <label class="actividad">
+                        <input
+                            type="checkbox"
+                            name="actividad"
+                            value="Atención a docente"
+                        >
+                        Atención a docente
+                    </label>
+
+                    <label class="actividad">
+                        <input
+                            type="checkbox"
+                            name="actividad"
+                            value="Seguimiento a alumnos con riesgo académico"
+                        >
+                        Seguimiento a alumnos con riesgo académico
+                    </label>
+
+                    <label class="actividad">
+                        <input
+                            type="checkbox"
+                            name="actividad"
+                            value="Canalización a OE"
+                        >
+                        Canalización a OE
+                    </label>
+
+                    <label class="actividad">
+                        <input
+                            type="checkbox"
+                            name="actividad"
+                            value="Aplicar estrategias de estudio"
+                        >
+                        Aplicar estrategias de estudio
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <div class="campo campo-completo">
+
+                <label for="descripcion">
+                    Actividades desarrolladas / Observaciones
+                </label>
+
+                <textarea
+                    id="descripcion"
+                    rows="6"
+                    placeholder="Escriba las actividades desarrolladas, acuerdos, observaciones o seguimiento..."
+                    required
+                ></textarea>
+
+            </div>
+
+
+            <div class="botones">
+
+                <button
+                    type="submit"
+                    id="btnGuardar"
+                    class="btn-guardar"
+                >
+                    Guardar registro
+                </button>
+
+                <button
+                    type="button"
+                    id="btnCancelar"
+                    class="btn-cancelar oculto"
+                >
+                    Cancelar edición
+                </button>
+
+            </div>
+
+        </form>
+
+        <div id="mensaje"></div>
+
+    </section>
+
+
+    <section class="tarjeta">
+
+        <div class="titulo-registros">
+
+            <div>
+                <h2>Registros de la bitácora</h2>
+                <p>Consulta de actividades registradas.</p>
+            </div>
+
+            <div class="contador">
+                Total:
+                <strong id="totalRegistros">0</strong>
+            </div>
+
+        </div>
+
+
+        <div class="filtros">
+
+            <div class="campo">
+                <label>Fecha</label>
+                <input type="date" id="filtroFecha">
+            </div>
+
+            <div class="campo">
+                <label>Grupo</label>
+
+                <select id="filtroGrupo">
+                    <option value="">Todos</option>
+
+                    <option>101</option>
+                    <option>102</option>
+                    <option>103</option>
+                    <option>104</option>
+                    <option>105</option>
+                    <option>106</option>
+                    <option>107</option>
+                    <option>108</option>
+
+                    <option>111</option>
+                    <option>112</option>
+                    <option>113</option>
+                    <option>114</option>
+                    <option>115</option>
+                    <option>116</option>
+
+                    <option>301</option>
+                    <option>302</option>
+                    <option>303</option>
+                    <option>304</option>
+                    <option>305</option>
+                    <option>306</option>
+
+                    <option>311</option>
+                    <option>312</option>
+                    <option>313</option>
+                    <option>314</option>
+
+                    <option>501</option>
+                    <option>502</option>
+                    <option>503</option>
+                    <option>504</option>
+                    <option>505</option>
+                    <option>506</option>
+
+                    <option>511</option>
+                    <option>512</option>
+                    <option>513</option>
+                    <option>514</option>
+                </select>
+            </div>
+
+            <div class="campo">
+                <label>Buscar TTA</label>
+                <input
+                    type="text"
+                    id="filtroTTA"
+                    placeholder="Nombre del TTA"
+                >
+            </div>
+
+            <div class="campo">
+                <label>Buscar alumno</label>
+                <input
+                    type="text"
+                    id="filtroAlumno"
+                    placeholder="Nombre del alumno"
+                >
+            </div>
+
+            <div class="campo boton-filtro">
+                <label>&nbsp;</label>
+                <button
+                    type="button"
+                    id="btnLimpiarFiltros"
+                    class="btn-secundario"
+                >
+                    Limpiar filtros
+                </button>
+            </div>
+
+        </div>
+
+
+        <div class="tabla-contenedor">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>TTA</th>
+                        <th>Grupo</th>
+                        <th>Alumno</th>
+                        <th>Actividad</th>
+                        <th>Actividades desarrolladas</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody id="tablaRegistros">
+
+                    <tr>
+                        <td colspan="7" class="sin-registros">
+                            Cargando registros...
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+    Sistema de Bitácora de Atención Tutorial
+</footer>
+
+
+<script type="module">
+
+    // =====================================================
+    // FIREBASE
+    // =====================================================
+
+    import { initializeApp }
+    from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+    import {
+        getFirestore,
+        collection,
+        addDoc,
+        updateDoc,
+        deleteDoc,
+        doc,
+        onSnapshot,
+        serverTimestamp
+    }
+    from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+    // =====================================================
+    // CONFIGURACIÓN DE TU FIREBASE
+    // =====================================================
+
+    // CAMBIA ESTOS DATOS POR LOS DE TU PROYECTO.
+
+    const firebaseConfig = {
+  apiKey: "AIzaSyAl_h00T4sZB_ShZ-1QPIFnwubjLCmBNvw",
+  authDomain: "bitacora-tta.firebaseapp.com",
+  projectId: "bitacora-tta",
+  storageBucket: "bitacora-tta.firebasestorage.app",
+  messagingSenderId: "393700999811",
+  appId: "1:393700999811:web:ddc42407a7783464e091b6"
+};
+
+
+    // =====================================================
+    // INICIAR FIREBASE
+    // =====================================================
+
+    const app =
+        initializeApp(firebaseConfig);
+
+    const db =
+        getFirestore(app);
+
+    const coleccionBitacora =
+        collection(
+            db,
+            "bitacora_tutorial"
+        );
+
+
+    // =====================================================
+    // ELEMENTOS
+    // =====================================================
+
+    const formulario =
+        document.getElementById(
+            "formBitacora"
+        );
+
+    const registroId =
+        document.getElementById(
+            "registroId"
+        );
+
+    const fecha =
+        document.getElementById(
+            "fecha"
+        );
+
+    const tta =
+        document.getElementById(
+            "tta"
+        );
+
+    const grupo =
+        document.getElementById(
+            "grupo"
+        );
+
+    const alumno =
+        document.getElementById(
+            "alumno"
+        );
+
+    const descripcion =
+        document.getElementById(
+            "descripcion"
+        );
+
+    const mensaje =
+        document.getElementById(
+            "mensaje"
+        );
+
+    const btnGuardar =
+        document.getElementById(
+            "btnGuardar"
+        );
+
+    const btnCancelar =
+        document.getElementById(
+            "btnCancelar"
+        );
+
+    const tablaRegistros =
+        document.getElementById(
+            "tablaRegistros"
+        );
+
+    const totalRegistros =
+        document.getElementById(
+            "totalRegistros"
+        );
+
+    const filtroFecha =
+        document.getElementById(
+            "filtroFecha"
+        );
+
+    const filtroGrupo =
+        document.getElementById(
+            "filtroGrupo"
+        );
+
+    const filtroTTA =
+        document.getElementById(
+            "filtroTTA"
+        );
+
+    const filtroAlumno =
+        document.getElementById(
+            "filtroAlumno"
+        );
+
+    const btnLimpiarFiltros =
+        document.getElementById(
+            "btnLimpiarFiltros"
+        );
+
+
+    let registros = [];
+
+
+    // =====================================================
+    // FECHA ACTUAL
+    // =====================================================
+
+    function establecerFechaActual() {
+
+        const hoy =
+            new Date();
+
+        const anio =
+            hoy.getFullYear();
+
+        const mes =
+            String(
+                hoy.getMonth() + 1
+            ).padStart(2, "0");
+
+        const dia =
+            String(
+                hoy.getDate()
+            ).padStart(2, "0");
+
+        fecha.value =
+            `${anio}-${mes}-${dia}`;
+    }
+
+    establecerFechaActual();
+
+
+    // =====================================================
+    // ACTIVIDADES SELECCIONADAS
+    // =====================================================
+
+    function obtenerActividades() {
+
+        const seleccionadas =
+            document.querySelectorAll(
+                'input[name="actividad"]:checked'
+            );
+
+        return Array
+            .from(seleccionadas)
+            .map(
+                actividad =>
+                    actividad.value
+            );
+    }
+
+
+    // =====================================================
+    // GUARDAR
+    // =====================================================
+
+    formulario.addEventListener(
+        "submit",
+        async function(evento) {
+
+            evento.preventDefault();
+
+            const actividades =
+                obtenerActividades();
+
+
+            if (
+                actividades.length === 0
+            ) {
+
+                mostrarMensaje(
+                    "Seleccione por lo menos una actividad.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            const datos = {
+
+                fecha:
+                    fecha.value,
+
+                tta:
+                    tta.value.trim(),
+
+                grupo:
+                    grupo.value,
+
+                alumno:
+                    alumno.value.trim(),
+
+                actividades:
+                    actividades,
+
+                descripcion:
+                    descripcion.value.trim(),
+
+                ultimaActualizacion:
+                    serverTimestamp()
+
+            };
+
+
+            try {
+
+                // EDITAR
+
+                if (
+                    registroId.value
+                ) {
+
+                    const referencia =
+                        doc(
+                            db,
+                            "bitacora_tutorial",
+                            registroId.value
+                        );
+
+                    await updateDoc(
+                        referencia,
+                        datos
+                    );
+
+                    mostrarMensaje(
+                        "Registro actualizado correctamente.",
+                        "exito"
+                    );
+
+                }
+
+                // NUEVO REGISTRO
+
+                else {
+
+                    datos.creado =
+                        serverTimestamp();
+
+                    await addDoc(
+                        coleccionBitacora,
+                        datos
+                    );
+
+                    mostrarMensaje(
+                        "Registro guardado correctamente.",
+                        "exito"
+                    );
+
+                }
+
+
+                limpiarFormulario();
+
+            }
+
+            catch(error) {
+
+                console.error(error);
+
+                mostrarMensaje(
+                    "Error al guardar: "
+                    + error.message,
+                    "error"
+                );
+
+            }
+
+        }
+    );
+
+
+    // =====================================================
+    // LEER FIREBASE EN TIEMPO REAL
+    // =====================================================
+
+    onSnapshot(
+
+        coleccionBitacora,
+
+        (snapshot) => {
+
+            registros = [];
+
+            snapshot.forEach(
+
+                documento => {
+
+                    registros.push({
+
+                        id:
+                            documento.id,
+
+                        ...documento.data()
+
+                    });
+
+                }
+
+            );
+
+
+            registros.sort(
+
+                (a,b) =>
+
+                    (b.fecha || "")
+                    .localeCompare(
+                        a.fecha || ""
+                    )
+
+            );
+
+
+            mostrarRegistros();
+
+        },
+
+        (error) => {
+
+            console.error(error);
+
+            tablaRegistros.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="7"
+                        class="sin-registros"
+                    >
+
+                        Error al consultar
+                        Firebase.
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+
+    );
+
+
+    // =====================================================
+    // MOSTRAR REGISTROS
+    // =====================================================
+
+    function mostrarRegistros() {
+
+        const buscarFecha =
+            filtroFecha.value;
+
+        const buscarGrupo =
+            filtroGrupo.value;
+
+        const buscarTTA =
+            filtroTTA.value
+            .toLowerCase()
+            .trim();
+
+        const buscarAlumno =
+            filtroAlumno.value
+            .toLowerCase()
+            .trim();
+
+
+        const filtrados =
+            registros.filter(
+
+                registro => {
+
+                    const coincideFecha =
+
+                        !buscarFecha ||
+
+                        registro.fecha ===
+                        buscarFecha;
+
+
+                    const coincideGrupo =
+
+                        !buscarGrupo ||
+
+                        registro.grupo ===
+                        buscarGrupo;
+
+
+                    const coincideTTA =
+
+                        !buscarTTA ||
+
+                        (
+                            registro.tta ||
+                            ""
+                        )
+
+                        .toLowerCase()
+
+                        .includes(
+                            buscarTTA
+                        );
+
+
+                    const coincideAlumno =
+
+                        !buscarAlumno ||
+
+                        (
+                            registro.alumno ||
+                            ""
+                        )
+
+                        .toLowerCase()
+
+                        .includes(
+                            buscarAlumno
+                        );
+
+
+                    return (
+
+                        coincideFecha &&
+                        coincideGrupo &&
+                        coincideTTA &&
+                        coincideAlumno
+
+                    );
+
+                }
+
+            );
+
+
+        totalRegistros.textContent =
+            filtrados.length;
+
+
+        tablaRegistros.innerHTML =
+            "";
+
+
+        if (
+            filtrados.length === 0
+        ) {
+
+            tablaRegistros.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="7"
+                        class="sin-registros"
+                    >
+
+                        No existen registros.
+
+                    </td>
+
+                </tr>
+
+            `;
+
+            return;
+        }
+
+
+        filtrados.forEach(
+
+            registro => {
+
+
+                const fila =
+                    document.createElement(
+                        "tr"
+                    );
+
+
+                // FECHA
+
+                const tdFecha =
+                    document.createElement(
+                        "td"
+                    );
+
+                tdFecha.textContent =
+                    convertirFecha(
+                        registro.fecha
+                    );
+
+
+                // TTA
+
+                const tdTTA =
+                    document.createElement(
+                        "td"
+                    );
+
+                tdTTA.textContent =
+                    registro.tta || "";
+
+
+                // GRUPO
+
+                const tdGrupo =
+                    document.createElement(
+                        "td"
+                    );
+
+                tdGrupo.textContent =
+                    registro.grupo || "";
+
+
+                // ALUMNO
+
+                const tdAlumno =
+                    document.createElement(
+                        "td"
+                    );
+
+                tdAlumno.textContent =
+                    registro.alumno ||
+                    "No especificado";
+
+
+                // ACTIVIDADES
+
+                const tdActividades =
+                    document.createElement(
+                        "td"
+                    );
+
+
+                if (
+                    Array.isArray(
+                        registro.actividades
+                    )
+                ) {
+
+                    registro
+                    .actividades
+                    .forEach(
+
+                        actividad => {
+
+                            const etiqueta =
+                                document
+                                .createElement(
+                                    "span"
+                                );
+
+                            etiqueta.className =
+                                "actividad-etiqueta";
+
+                            etiqueta.textContent =
+                                actividad;
+
+                            tdActividades
+                            .appendChild(
+                                etiqueta
+                            );
+
+                        }
+
+                    );
+
+                }
+
+
+                // DESCRIPCIÓN
+
+                const tdDescripcion =
+                    document.createElement(
+                        "td"
+                    );
+
+                tdDescripcion.textContent =
+                    registro.descripcion ||
+                    "";
+
+
+                // ACCIONES
+
+                const tdAcciones =
+                    document.createElement(
+                        "td"
+                    );
+
+
+                const editar =
+                    document.createElement(
+                        "button"
+                    );
+
+                editar.textContent =
+                    "Editar";
+
+                editar.className =
+                    "btn-editar";
+
+                editar.addEventListener(
+                    "click",
+                    () => {
+
+                        editarRegistro(
+                            registro.id
+                        );
+
+                    }
+                );
+
+
+                const eliminar =
+                    document.createElement(
+                        "button"
+                    );
+
+                eliminar.textContent =
+                    "Eliminar";
+
+                eliminar.className =
+                    "btn-eliminar";
+
+                eliminar.addEventListener(
+                    "click",
+                    () => {
+
+                        eliminarRegistro(
+                            registro.id
+                        );
+
+                    }
+                );
+
+
+                tdAcciones.appendChild(
+                    editar
+                );
+
+                tdAcciones.appendChild(
+                    eliminar
+                );
+
+
+                fila.appendChild(
+                    tdFecha
+                );
+
+                fila.appendChild(
+                    tdTTA
+                );
+
+                fila.appendChild(
+                    tdGrupo
+                );
+
+                fila.appendChild(
+                    tdAlumno
+                );
+
+                fila.appendChild(
+                    tdActividades
+                );
+
+                fila.appendChild(
+                    tdDescripcion
+                );
+
+                fila.appendChild(
+                    tdAcciones
+                );
+
+
+                tablaRegistros.appendChild(
+                    fila
+                );
+
+            }
+
+        );
+
+    }
+
+
+    // =====================================================
+    // EDITAR
+    // =====================================================
+
+    function editarRegistro(id) {
+
+        const registro =
+            registros.find(
+                elemento =>
+                    elemento.id === id
+            );
+
+
+        if (!registro) {
+            return;
+        }
+
+
+        registroId.value =
+            registro.id;
+
+        fecha.value =
+            registro.fecha || "";
+
+        tta.value =
+            registro.tta || "";
+
+        grupo.value =
+            registro.grupo || "";
+
+        alumno.value =
+            registro.alumno || "";
+
+        descripcion.value =
+            registro.descripcion || "";
+
+
+        document
+        .querySelectorAll(
+            'input[name="actividad"]'
+        )
+        .forEach(
+
+            checkbox => {
+
+                checkbox.checked =
+                    false;
+
+            }
+
+        );
+
+
+        if (
+            Array.isArray(
+                registro.actividades
+            )
+        ) {
+
+            document
+            .querySelectorAll(
+                'input[name="actividad"]'
+            )
+            .forEach(
+
+                checkbox => {
+
+                    checkbox.checked =
+                        registro
+                        .actividades
+                        .includes(
+                            checkbox.value
+                        );
+
+                }
+
+            );
+
+        }
+
+
+        btnGuardar.textContent =
+            "Actualizar registro";
+
+        btnCancelar
+        .classList
+        .remove(
+            "oculto"
+        );
+
+
+        window.scrollTo({
+
+            top: 0,
+
+            behavior: "smooth"
+
+        });
+
+    }
+
+
+    // =====================================================
+    // CANCELAR
+    // =====================================================
+
+    btnCancelar.addEventListener(
+
+        "click",
+
+        () => {
+
+            limpiarFormulario();
+
+        }
+
+    );
+
+
+    // =====================================================
+    // ELIMINAR
+    // =====================================================
+
+    async function eliminarRegistro(id) {
+
+        const confirmar =
+            confirm(
+                "¿Está seguro de eliminar este registro?"
+            );
+
+
+        if (!confirmar) {
+            return;
+        }
+
+
+        try {
+
+            await deleteDoc(
+
+                doc(
+                    db,
+                    "bitacora_tutorial",
+                    id
+                )
+
+            );
+
+
+            mostrarMensaje(
+                "Registro eliminado correctamente.",
+                "exito"
+            );
+
+        }
+
+        catch(error) {
+
+            console.error(error);
+
+            mostrarMensaje(
+                "No fue posible eliminar el registro.",
+                "error"
+            );
+
+        }
+
+    }
+
+
+    // =====================================================
+    // LIMPIAR FORMULARIO
+    // =====================================================
+
+    function limpiarFormulario() {
+
+        formulario.reset();
+
+        registroId.value =
+            "";
+
+        establecerFechaActual();
+
+        btnGuardar.textContent =
+            "Guardar registro";
+
+        btnCancelar
+        .classList
+        .add(
+            "oculto"
+        );
+
+    }
+
+
+    // =====================================================
+    // MENSAJES
+    // =====================================================
+
+    function mostrarMensaje(
+        texto,
+        tipo
+    ) {
+
+        mensaje.textContent =
+            texto;
+
+
+        if (
+            tipo === "exito"
+        ) {
+
+            mensaje.className =
+                "mensaje-exito";
+
+        }
+
+        else {
+
+            mensaje.className =
+                "mensaje-error";
+
+        }
+
+
+        setTimeout(
+            () => {
+
+                mensaje.textContent =
+                    "";
+
+                mensaje.className =
+                    "";
+
+            },
+
+            5000
+
+        );
+
+    }
+
+
+    // =====================================================
+    // FORMATO FECHA
+    // =====================================================
+
+    function convertirFecha(
+        texto
+    ) {
+
+        if (!texto) {
+            return "";
+        }
+
+
+        const partes =
+            texto.split("-");
+
+
+        if (
+            partes.length !== 3
+        ) {
+
+            return texto;
+
+        }
+
+
+        return (
+
+            partes[2]
+            + "/"
+            + partes[1]
+            + "/"
+            + partes[0]
+
+        );
+
+    }
+
+
+    // =====================================================
+    // FILTROS
+    // =====================================================
+
+    filtroFecha.addEventListener(
+        "change",
+        mostrarRegistros
+    );
+
+    filtroGrupo.addEventListener(
+        "change",
+        mostrarRegistros
+    );
+
+    filtroTTA.addEventListener(
+        "input",
+        mostrarRegistros
+    );
+
+    filtroAlumno.addEventListener(
+        "input",
+        mostrarRegistros
+    );
+
+
+    btnLimpiarFiltros.addEventListener(
+
+        "click",
+
+        () => {
+
+            filtroFecha.value =
+                "";
+
+            filtroGrupo.value =
+                "";
+
+            filtroTTA.value =
+                "";
+
+            filtroAlumno.value =
+                "";
+
+            mostrarRegistros();
+
+        }
+
+    );
+
+</script>
+
+</body>
+</html>
