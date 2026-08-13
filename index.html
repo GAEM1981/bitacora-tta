@@ -678,14 +678,14 @@
                         <th>Alumno</th>
                         <th>Actividad</th>
                         <th>Actividades desarrolladas</th>
-                        <th>Acciones</th>
+                        
                     </tr>
                 </thead>
 
                 <tbody id="tablaRegistros">
 
                     <tr>
-                        <td colspan="7" class="sin-registros">
+                        <td colspan="6" class="sin-registros">
                             Cargando registros...
                         </td>
                     </tr>
@@ -719,8 +719,6 @@
         getFirestore,
         collection,
         addDoc,
-        updateDoc,
-        deleteDoc,
         doc,
         onSnapshot,
         serverTimestamp
@@ -1078,7 +1076,7 @@
                 <tr>
 
                     <td
-                        colspan="7"
+                        colspan="6"
                         class="sin-registros"
                     >
 
@@ -1203,7 +1201,7 @@
                 <tr>
 
                     <td
-                        colspan="7"
+                        colspan="6"
                         class="sin-registros"
                     >
 
@@ -1332,70 +1330,6 @@
                     registro.descripcion ||
                     "";
 
-
-                // ACCIONES
-
-                const tdAcciones =
-                    document.createElement(
-                        "td"
-                    );
-
-
-                const editar =
-                    document.createElement(
-                        "button"
-                    );
-
-                editar.textContent =
-                    "Editar";
-
-                editar.className =
-                    "btn-editar";
-
-                editar.addEventListener(
-                    "click",
-                    () => {
-
-                        editarRegistro(
-                            registro.id
-                        );
-
-                    }
-                );
-
-
-                const eliminar =
-                    document.createElement(
-                        "button"
-                    );
-
-                eliminar.textContent =
-                    "Eliminar";
-
-                eliminar.className =
-                    "btn-eliminar";
-
-                eliminar.addEventListener(
-                    "click",
-                    () => {
-
-                        eliminarRegistro(
-                            registro.id
-                        );
-
-                    }
-                );
-
-
-                tdAcciones.appendChild(
-                    editar
-                );
-
-                tdAcciones.appendChild(
-                    eliminar
-                );
-
-
                 fila.appendChild(
                     tdFecha
                 );
@@ -1420,9 +1354,7 @@
                     tdDescripcion
                 );
 
-                fila.appendChild(
-                    tdAcciones
-                );
+               
 
 
                 tablaRegistros.appendChild(
@@ -1439,103 +1371,6 @@
     // =====================================================
     // EDITAR
     // =====================================================
-
-    function editarRegistro(id) {
-
-        const registro =
-            registros.find(
-                elemento =>
-                    elemento.id === id
-            );
-
-
-        if (!registro) {
-            return;
-        }
-
-
-        registroId.value =
-            registro.id;
-
-        fecha.value =
-            registro.fecha || "";
-
-        tta.value =
-            registro.tta || "";
-
-        grupo.value =
-            registro.grupo || "";
-
-        alumno.value =
-            registro.alumno || "";
-
-        descripcion.value =
-            registro.descripcion || "";
-
-
-        document
-        .querySelectorAll(
-            'input[name="actividad"]'
-        )
-        .forEach(
-
-            checkbox => {
-
-                checkbox.checked =
-                    false;
-
-            }
-
-        );
-
-
-        if (
-            Array.isArray(
-                registro.actividades
-            )
-        ) {
-
-            document
-            .querySelectorAll(
-                'input[name="actividad"]'
-            )
-            .forEach(
-
-                checkbox => {
-
-                    checkbox.checked =
-                        registro
-                        .actividades
-                        .includes(
-                            checkbox.value
-                        );
-
-                }
-
-            );
-
-        }
-
-
-        btnGuardar.textContent =
-            "Actualizar registro";
-
-        btnCancelar
-        .classList
-        .remove(
-            "oculto"
-        );
-
-
-        window.scrollTo({
-
-            top: 0,
-
-            behavior: "smooth"
-
-        });
-
-    }
 
 
     // =====================================================
@@ -1559,51 +1394,6 @@
     // ELIMINAR
     // =====================================================
 
-    async function eliminarRegistro(id) {
-
-        const confirmar =
-            confirm(
-                "¿Está seguro de eliminar este registro?"
-            );
-
-
-        if (!confirmar) {
-            return;
-        }
-
-
-        try {
-
-            await deleteDoc(
-
-                doc(
-                    db,
-                    "bitacora_tutorial",
-                    id
-                )
-
-            );
-
-
-            mostrarMensaje(
-                "Registro eliminado correctamente.",
-                "exito"
-            );
-
-        }
-
-        catch(error) {
-
-            console.error(error);
-
-            mostrarMensaje(
-                "No fue posible eliminar el registro.",
-                "error"
-            );
-
-        }
-
-    }
 
 
     // =====================================================
