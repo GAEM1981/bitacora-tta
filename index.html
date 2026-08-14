@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BAT V1.0</title>
+    <title>Bitácora de Atención Tutorial</title>
 
     <style>
         * {
@@ -331,9 +331,8 @@
 
 <header>
     <div class="encabezado">
-        <h1>BITÁCORA DE ATENCIÓN TUTORIAL               CONALEP PLANTEL ECATEPEC II</h1>
-        <p>Registro de actividades desarrolladas por TTA           </p>
-        <p>&copy; 2026 BAT | Desarrollado por MTRO. MIGUEL ANGEL GAYTAN ESPINOSA</p>
+        <h1>BITÁCORA DE ATENCIÓN TUTORIAL</h1>
+        <p>Registro de actividades desarrolladas por TTA</p>
     </div>
 </header>
 
@@ -662,6 +661,14 @@
                 >
                     Limpiar filtros
                 </button>
+
+                <button
+                    type="button"
+                    id="btnDescargarExcel"
+                    class="btn-guardar"
+                >
+                    📊 Descargar Excel
+                </button>
             </div>
 
         </div>
@@ -679,14 +686,14 @@
                         <th>Alumno</th>
                         <th>Actividad</th>
                         <th>Actividades desarrolladas</th>
-                        
+                        <th>Acciones</th>
                     </tr>
                 </thead>
 
                 <tbody id="tablaRegistros">
 
                     <tr>
-                        <td colspan="6" class="sin-registros">
+                        <td colspan="7" class="sin-registros">
                             Cargando registros...
                         </td>
                     </tr>
@@ -707,6 +714,8 @@
 </footer>
 
 
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
 <script type="module">
 
     // =====================================================
@@ -720,6 +729,8 @@
         getFirestore,
         collection,
         addDoc,
+        updateDoc,
+        deleteDoc,
         doc,
         onSnapshot,
         serverTimestamp
@@ -847,6 +858,11 @@
     const btnLimpiarFiltros =
         document.getElementById(
             "btnLimpiarFiltros"
+        );
+
+    const btnDescargarExcel =
+        document.getElementById(
+            "btnDescargarExcel"
         );
 
 
@@ -1077,7 +1093,7 @@
                 <tr>
 
                     <td
-                        colspan="6"
+                        colspan="7"
                         class="sin-registros"
                     >
 
@@ -1202,7 +1218,7 @@
                 <tr>
 
                     <td
-                        colspan="6"
+                        colspan="7"
                         class="sin-registros"
                     >
 
@@ -1331,6 +1347,70 @@
                     registro.descripcion ||
                     "";
 
+
+                // ACCIONES
+
+                const tdAcciones =
+                    document.createElement(
+                        "td"
+                    );
+
+
+                const editar =
+                    document.createElement(
+                        "button"
+                    );
+
+                editar.textContent =
+                    "Editar";
+
+                editar.className =
+                    "btn-editar";
+
+                editar.addEventListener(
+                    "click",
+                    () => {
+
+                        editarRegistro(
+                            registro.id
+                        );
+
+                    }
+                );
+
+
+                const eliminar =
+                    document.createElement(
+                        "button"
+                    );
+
+                eliminar.textContent =
+                    "Eliminar";
+
+                eliminar.className =
+                    "btn-eliminar";
+
+                eliminar.addEventListener(
+                    "click",
+                    () => {
+
+                        eliminarRegistro(
+                            registro.id
+                        );
+
+                    }
+                );
+
+
+                tdAcciones.appendChild(
+                    editar
+                );
+
+                tdAcciones.appendChild(
+                    eliminar
+                );
+
+
                 fila.appendChild(
                     tdFecha
                 );
@@ -1355,7 +1435,9 @@
                     tdDescripcion
                 );
 
-               
+                fila.appendChild(
+                    tdAcciones
+                );
 
 
                 tablaRegistros.appendChild(
@@ -1372,6 +1454,103 @@
     // =====================================================
     // EDITAR
     // =====================================================
+
+    function editarRegistro(id) {
+
+        const registro =
+            registros.find(
+                elemento =>
+                    elemento.id === id
+            );
+
+
+        if (!registro) {
+            return;
+        }
+
+
+        registroId.value =
+            registro.id;
+
+        fecha.value =
+            registro.fecha || "";
+
+        tta.value =
+            registro.tta || "";
+
+        grupo.value =
+            registro.grupo || "";
+
+        alumno.value =
+            registro.alumno || "";
+
+        descripcion.value =
+            registro.descripcion || "";
+
+
+        document
+        .querySelectorAll(
+            'input[name="actividad"]'
+        )
+        .forEach(
+
+            checkbox => {
+
+                checkbox.checked =
+                    false;
+
+            }
+
+        );
+
+
+        if (
+            Array.isArray(
+                registro.actividades
+            )
+        ) {
+
+            document
+            .querySelectorAll(
+                'input[name="actividad"]'
+            )
+            .forEach(
+
+                checkbox => {
+
+                    checkbox.checked =
+                        registro
+                        .actividades
+                        .includes(
+                            checkbox.value
+                        );
+
+                }
+
+            );
+
+        }
+
+
+        btnGuardar.textContent =
+            "Actualizar registro";
+
+        btnCancelar
+        .classList
+        .remove(
+            "oculto"
+        );
+
+
+        window.scrollTo({
+
+            top: 0,
+
+            behavior: "smooth"
+
+        });
+
+    }
 
 
     // =====================================================
@@ -1395,6 +1574,51 @@
     // ELIMINAR
     // =====================================================
 
+    async function eliminarRegistro(id) {
+
+        const confirmar =
+            confirm(
+                "¿Está seguro de eliminar este registro?"
+            );
+
+
+        if (!confirmar) {
+            return;
+        }
+
+
+        try {
+
+            await deleteDoc(
+
+                doc(
+                    db,
+                    "bitacora_tutorial",
+                    id
+                )
+
+            );
+
+
+            mostrarMensaje(
+                "Registro eliminado correctamente.",
+                "exito"
+            );
+
+        }
+
+        catch(error) {
+
+            console.error(error);
+
+            mostrarMensaje(
+                "No fue posible eliminar el registro.",
+                "error"
+            );
+
+        }
+
+    }
 
 
     // =====================================================
@@ -1556,6 +1780,124 @@
 
         }
 
+    );
+
+
+    // =====================================================
+    // DESCARGAR BASE DE DATOS COMPLETA EN EXCEL
+    // =====================================================
+
+    btnDescargarExcel.addEventListener(
+        "click",
+        () => {
+
+            if (registros.length === 0) {
+
+                mostrarMensaje(
+                    "No existen registros para descargar.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            const datosExcel =
+                registros.map(
+                    (registro, indice) => {
+
+                        return {
+
+                            "No.":
+                                indice + 1,
+
+                            "Fecha":
+                                convertirFecha(
+                                    registro.fecha || ""
+                                ),
+
+                            "TTA":
+                                registro.tta || "",
+
+                            "Grupo":
+                                registro.grupo || "",
+
+                            "Alumno":
+                                registro.alumno || "",
+
+                            "Actividad":
+                                Array.isArray(
+                                    registro.actividades
+                                )
+                                ? registro.actividades.join(", ")
+                                : "",
+
+                            "Actividades desarrolladas / Observaciones":
+                                registro.descripcion || ""
+
+                        };
+
+                    }
+                );
+
+
+            const hoja =
+                XLSX.utils.json_to_sheet(
+                    datosExcel
+                );
+
+
+            hoja["!cols"] = [
+                { wch: 7 },
+                { wch: 14 },
+                { wch: 38 },
+                { wch: 10 },
+                { wch: 35 },
+                { wch: 55 },
+                { wch: 70 }
+            ];
+
+
+            const libro =
+                XLSX.utils.book_new();
+
+
+            XLSX.utils.book_append_sheet(
+                libro,
+                hoja,
+                "Bitácora"
+            );
+
+
+            const ahora =
+                new Date();
+
+            const fechaArchivo =
+                ahora.getFullYear()
+                + "-"
+                + String(
+                    ahora.getMonth() + 1
+                ).padStart(2, "0")
+                + "-"
+                + String(
+                    ahora.getDate()
+                ).padStart(2, "0");
+
+
+            XLSX.writeFile(
+                libro,
+                "Bitacora_TTA_"
+                + fechaArchivo
+                + ".xlsx"
+            );
+
+
+            mostrarMensaje(
+                "Base de datos descargada en Excel correctamente.",
+                "exito"
+            );
+
+        }
     );
 
 </script>
