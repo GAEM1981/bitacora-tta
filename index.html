@@ -1036,13 +1036,13 @@
     // =====================================================
     // LEER FIREBASE EN TIEMPO REAL
     // =====================================================
-const consultaUltimos5 = query(
+const consultaUltimos10 = query(
     coleccionBitacora,
     orderBy("creado", "desc"),
-    limit(5)
+    limit(10)
 );
    onSnapshot(
-    consultaUltimos5,
+    consultaUltimos10,
 
         (snapshot) => {
 
