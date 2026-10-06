@@ -764,12 +764,15 @@
     from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 
     import {
-        getFirestore,
-        collection,
-        addDoc,
-        onSnapshot,
-        serverTimestamp
-    }
+    getFirestore,
+    collection,
+    addDoc,
+    onSnapshot,
+    serverTimestamp,
+    query,
+    orderBy,
+    limit
+}
     from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
@@ -1033,10 +1036,13 @@
     // =====================================================
     // LEER FIREBASE EN TIEMPO REAL
     // =====================================================
-
-    onSnapshot(
-
-        coleccionBitacora,
+const consultaUltimos5 = query(
+    coleccionBitacora,
+    orderBy("creado", "desc"),
+    limit(5)
+);
+   onSnapshot(
+    consultaUltimos5,
 
         (snapshot) => {
 
