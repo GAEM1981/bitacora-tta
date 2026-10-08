@@ -1,387 +1,723 @@
+<html>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bitácora de Atención y Seguimiento</title>
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Bitácora de Atención y Seguimiento
+    </title>
+
 
     <style>
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
 
+
         body {
-            font-family: Arial, Helvetica, sans-serif;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
             background: #f2f4f7;
+
             color: #333;
         }
 
+
         header {
+
             background: #76232f;
+
             color: white;
+
             padding: 25px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+
+            box-shadow:
+                0 2px 8px
+                rgba(0,0,0,0.2);
         }
 
+
         .encabezado {
+
             max-width: 1400px;
+
             margin: auto;
         }
 
+
         header h1 {
+
             font-size: 27px;
+
             margin-bottom: 7px;
         }
 
+
         header p {
+
             opacity: 0.9;
         }
 
+
         main {
+
             max-width: 1400px;
+
             margin: 30px auto;
+
             padding: 0 20px;
         }
 
+
         .tarjeta {
+
             background: white;
+
             border-radius: 12px;
+
             padding: 25px;
+
             margin-bottom: 30px;
-            box-shadow: 0 3px 14px rgba(0,0,0,0.08);
+
+            box-shadow:
+                0 3px 14px
+                rgba(0,0,0,0.08);
         }
 
+
         .tarjeta h2 {
+
             color: #76232f;
+
             margin-bottom: 22px;
         }
 
+
         .grid-form {
+
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
             gap: 20px;
         }
 
+
         .campo {
+
             display: flex;
+
             flex-direction: column;
         }
 
+
         .campo label {
+
             font-weight: bold;
+
             margin-bottom: 7px;
         }
+
 
         input,
         select,
         textarea {
+
             padding: 12px;
-            border: 1px solid #bbb;
+
+            border:
+                1px solid #bbb;
+
             border-radius: 7px;
+
             font-size: 15px;
+
             background: white;
+
             width: 100%;
         }
+
 
         input:focus,
         select:focus,
         textarea:focus {
+
             outline: none;
-            border: 2px solid #76232f;
+
+            border:
+                2px solid #76232f;
         }
 
+
         textarea {
+
             resize: vertical;
         }
 
+
         .campo-completo {
+
             margin-top: 25px;
         }
 
+
         .seccion-actividades {
+
             margin-top: 30px;
         }
 
+
         .seccion-actividades h3 {
+
             color: #76232f;
+
             margin-bottom: 6px;
         }
 
+
         .instruccion {
+
             color: #666;
+
             font-size: 14px;
+
             margin-bottom: 15px;
         }
 
+
         .actividades {
+
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
             gap: 12px;
         }
 
+
         .actividad {
+
             display: flex;
+
             align-items: center;
+
             background: #f7f7f7;
+
             padding: 13px;
-            border: 1px solid #ddd;
+
+            border:
+                1px solid #ddd;
+
             border-radius: 8px;
+
             cursor: pointer;
         }
 
+
         .actividad:hover {
+
             background: #f5e9eb;
+
             border-color: #76232f;
         }
 
+
         .actividad input {
+
             width: auto;
+
             margin-right: 10px;
+
             transform: scale(1.3);
         }
 
+
         .botones {
+
             display: flex;
+
             gap: 12px;
+
             margin-top: 25px;
         }
 
+
         button {
+
             border: none;
+
             border-radius: 7px;
+
             padding: 12px 20px;
+
             cursor: pointer;
+
             font-weight: bold;
+
             font-size: 14px;
         }
 
+
+        button:disabled {
+
+            opacity: 0.6;
+
+            cursor: not-allowed;
+        }
+
+
         .btn-guardar {
+
             background: #76232f;
+
             color: white;
         }
 
+
         .btn-guardar:hover {
+
             background: #531821;
         }
 
+
         .btn-secundario {
+
             background: #444;
+
             color: white;
         }
 
+
         #mensaje {
+
             margin-top: 20px;
         }
 
+
         .mensaje-exito {
+
             background: #d4edda;
+
             color: #155724;
+
             padding: 13px;
+
             border-radius: 7px;
-            border: 1px solid #c3e6cb;
+
+            border:
+                1px solid #c3e6cb;
         }
+
 
         .mensaje-error {
+
             background: #f8d7da;
+
             color: #721c24;
+
             padding: 13px;
+
             border-radius: 7px;
-            border: 1px solid #f5c6cb;
+
+            border:
+                1px solid #f5c6cb;
         }
 
+
         .titulo-registros {
+
             display: flex;
-            justify-content: space-between;
+
+            justify-content:
+                space-between;
+
             align-items: center;
+
             margin-bottom: 20px;
         }
 
+
         .contador {
+
             background: #76232f;
+
             color: white;
+
             padding: 10px 16px;
+
             border-radius: 20px;
         }
 
+
         .filtros {
+
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+
+            grid-template-columns:
+                repeat(5, 1fr);
+
             gap: 12px;
+
             background: #f5f5f5;
+
             padding: 15px;
+
             border-radius: 8px;
+
             margin-bottom: 20px;
         }
 
+
         .boton-filtro {
-            justify-content: flex-end;
+
+            justify-content:
+                flex-end;
         }
 
+
+        .boton-filtro button {
+
+            margin-bottom: 8px;
+        }
+
+
         .tabla-contenedor {
+
             overflow-x: auto;
         }
 
+
         table {
+
             border-collapse: collapse;
+
             width: 100%;
+
             min-width: 1150px;
         }
 
+
         thead {
+
             background: #76232f;
+
             color: white;
         }
+
 
         th,
         td {
+
             padding: 12px;
-            border-bottom: 1px solid #ddd;
+
+            border-bottom:
+                1px solid #ddd;
+
             text-align: left;
+
             vertical-align: top;
         }
 
+
         tbody tr:hover {
+
             background: #f8f8f8;
         }
 
+
         .actividad-etiqueta {
+
             display: inline-block;
+
             background: #f1e5e7;
+
             color: #76232f;
+
             padding: 5px 8px;
+
             margin: 2px;
+
             border-radius: 5px;
+
             font-size: 12px;
         }
 
+
         .sin-registros {
+
             text-align: center;
+
             padding: 30px;
+
             color: #777;
         }
 
+
         footer {
+
             background: #333;
+
             color: white;
+
             text-align: center;
+
             padding: 20px;
+
             margin-top: 30px;
         }
 
+
         @media (max-width: 1000px) {
+
             .filtros {
-                grid-template-columns: repeat(2, 1fr);
+
+                grid-template-columns:
+                    repeat(2, 1fr);
             }
         }
 
+
         @media (max-width: 700px) {
+
             .grid-form,
             .actividades,
             .filtros {
+
                 grid-template-columns: 1fr;
             }
 
+
             .titulo-registros {
+
                 flex-direction: column;
+
                 align-items: flex-start;
+
                 gap: 15px;
             }
 
+
             .botones {
+
                 flex-direction: column;
             }
 
+
             button {
+
                 width: 100%;
             }
 
+
             header h1 {
+
                 font-size: 21px;
             }
         }
+
     </style>
+
 </head>
+
 
 <body>
 
+
 <header>
+
     <div class="encabezado">
-        <h1>BITÁCORA DE ATENCIÓN Y SEGUIMIENTO</h1>
-        <p>Registro de actividades desarrolladas por TTA/OE/TB</p>
-         <p>&copy; 2026 BAS | Desarrollado por MTRO. MIGUEL ANGEL GAYTAN ESPINOSA</p>
+
+        <h1>
+            BITÁCORA DE ATENCIÓN Y SEGUIMIENTO
+        </h1>
+
+        <p>
+            Registro de actividades desarrolladas por TTA/OE/TB
+        </p>
+
+        <p>
+            &copy; 2026 BAS |
+            Desarrollado por
+            MTRO. MIGUEL ANGEL GAYTAN ESPINOSA
+        </p>
+
     </div>
+
 </header>
+
+
 
 <main>
 
+
+    <!-- ================================================= -->
+    <!-- NUEVO REGISTRO -->
+    <!-- ================================================= -->
+
     <section class="tarjeta">
 
-        <h2>Nuevo registro</h2>
+        <h2>
+            Nuevo registro
+        </h2>
+
 
         <form id="formBitacora">
+
+
             <div class="grid-form">
 
+
+                <!-- FECHA -->
+
                 <div class="campo">
-                    <label for="fecha">Fecha</label>
-                    <input type="date" id="fecha" required>
+
+                    <label for="fecha">
+                        Fecha
+                    </label>
+
+                    <input
+                        type="date"
+                        id="fecha"
+                        required
+                    >
+
                 </div>
 
-               <div class="campo">
-    <label for="tta">Nombre de quien atiende</label>
 
-    <select id="tta" required>
-        <option value="">Seleccione personal</option>
 
-        <option value="MTRO. MIGUEL ANGEL GAYTAN ESPINOSA">
-            MTRO. MIGUEL ANGEL GAYTAN ESPINOSA
-        </option>
-
-        <option value="LIC. MIGUEL ANGEL FLORES BLANCO">
-            LIC. MIGUEL ANGEL FLORES BLANCO
-        </option>
-
-       <option value="LIC. ROSA ANGELICA MENDEZ SANCHEZ">
-            LIC. ROSA ANGELICA MENDEZ SANCHEZ
-        </option>
-
-       <option value="LIC. MARIA EUGENIA RUIZ CÁZARES">
-            LIC. MARIA EUGENIA RUIZ CÁZARES
-        </option>
-
-       <option value="LIC. MARIANA ARECHAVALA ORTIZ">
-            LIC. MARIANA ARECHAVALA ORTIZ
-        </option>
-
-       <option value="LIC. JESSICA VELAZQUEZ MAGOS">
-            LIC. JESSICA VELAZQUEZ MAGOS
-        </option>
-
-       <option value="MTRO. GERARDO GONZALEZ ALMANZA">
-            MTRO. GERARDO GONZALEZ ALMANZA
-        </option>
-
-        <option value="LIC. EMMANUEL GUZMAN ALMANZA">
-            LIC. EMMANUEL GUZMAN ALMANZA
-        </option>
-
-        <option value="LIC. JOSELIN  MACIAS MONROY">
-            LIC. JOSELIN  MACIAS MONROY
-        </option>
-
-        <option value="LIC. OMAR ULISES CASTRO SALMERON">
-            LIC. OMAR ULISES CASTRO SALMERON
-        </option>
-    </select>
-</div>
+                <!-- TTA -->
 
                 <div class="campo">
-                    <label for="grupo">Grupo</label>
 
-                    <select id="grupo" required>
-                        <option value="">Seleccione un grupo</option>
- <option>ninguno</option>
+                    <label for="tta">
+                        Nombre de quien atiende
+                    </label>
+
+
+                    <select
+                        id="tta"
+                        required
+                    >
+
+                        <option value="">
+                            Seleccione personal
+                        </option>
+
+
+                        <option
+                            value="MTRO. MIGUEL ANGEL GAYTAN ESPINOSA"
+                        >
+                            MTRO. MIGUEL ANGEL GAYTAN ESPINOSA
+                        </option>
+
+
+                        <option
+                            value="LIC. MIGUEL ANGEL FLORES BLANCO"
+                        >
+                            LIC. MIGUEL ANGEL FLORES BLANCO
+                        </option>
+
+
+                        <option
+                            value="LIC. ROSA ANGELICA MENDEZ SANCHEZ"
+                        >
+                            LIC. ROSA ANGELICA MENDEZ SANCHEZ
+                        </option>
+
+
+                        <option
+                            value="LIC. MARIA EUGENIA RUIZ CÁZARES"
+                        >
+                            LIC. MARIA EUGENIA RUIZ CÁZARES
+                        </option>
+
+
+                        <option
+                            value="LIC. MARIANA ARECHAVALA ORTIZ"
+                        >
+                            LIC. MARIANA ARECHAVALA ORTIZ
+                        </option>
+
+
+                        <option
+                            value="LIC. JESSICA VELAZQUEZ MAGOS"
+                        >
+                            LIC. JESSICA VELAZQUEZ MAGOS
+                        </option>
+
+
+                        <option
+                            value="MTRO. GERARDO GONZALEZ ALMANZA"
+                        >
+                            MTRO. GERARDO GONZALEZ ALMANZA
+                        </option>
+
+
+                        <option
+                            value="LIC. EMMANUEL GUZMAN ALMANZA"
+                        >
+                            LIC. EMMANUEL GUZMAN ALMANZA
+                        </option>
+
+
+                        <option
+                            value="LIC. JOSELIN MACIAS MONROY"
+                        >
+                            LIC. JOSELIN MACIAS MONROY
+                        </option>
+
+
+                        <option
+                            value="LIC. OMAR ULISES CASTRO SALMERON"
+                        >
+                            LIC. OMAR ULISES CASTRO SALMERON
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- GRUPO -->
+
+                <div class="campo">
+
+                    <label for="grupo">
+                        Grupo
+                    </label>
+
+
+                    <select
+                        id="grupo"
+                        required
+                    >
+
+                        <option value="">
+                            Seleccione un grupo
+                        </option>
+
+                        <option>
+                            ninguno
+                        </option>
+
                         <option>101</option>
                         <option>102</option>
                         <option>103</option>
@@ -410,6 +746,11 @@
                         <option>313</option>
                         <option>314</option>
 
+                        <option>351</option>
+                        <option>352</option>
+                        <option>353</option>
+                        <option>354</option>
+
                         <option>501</option>
                         <option>502</option>
                         <option>503</option>
@@ -422,177 +763,273 @@
                         <option>513</option>
                         <option>514</option>
 
-                         <option>351</option>
-                        <option>352</option>
-                        <option>353</option>
-                        <option>354</option>
                         <option>551</option>
                         <option>552</option>
                         <option>553</option>
                         <option>554</option>
+
                         <option>todos</option>
+
                     </select>
+
                 </div>
 
+
+
+                <!-- ALUMNO -->
+
                 <div class="campo">
+
                     <label for="alumno">
                         Nombre del alumno
                     </label>
+
 
                     <input
                         type="text"
                         id="alumno"
                         placeholder="Nombre completo del alumno"
                     >
+
                 </div>
+
 
             </div>
 
 
+
+            <!-- ================================================= -->
+            <!-- ACTIVIDADES -->
+            <!-- ================================================= -->
+
             <div class="seccion-actividades">
 
-                <h3>Actividad realizada</h3>
+                <h3>
+                    Actividad realizada
+                </h3>
+
 
                 <p class="instruccion">
                     Puede seleccionar una o varias actividades.
                 </p>
 
+
                 <div class="actividades">
 
+
                     <label class="actividad">
+
                         <input
                             type="checkbox"
                             name="actividad"
                             value="Tutoría académica individual"
                         >
+
                         Tutoría académica individual
+
                     </label>
 
+
+
                     <label class="actividad">
+
                         <input
                             type="checkbox"
                             name="actividad"
                             value="Tutoría académica grupal"
                         >
+
                         Tutoría académica grupal
+
                     </label>
 
+
+
                     <label class="actividad">
+
                         <input
                             type="checkbox"
                             name="actividad"
                             value="Atención a tutor"
                         >
+
                         Atención a tutor
+
                     </label>
 
+
+
                     <label class="actividad">
+
                         <input
                             type="checkbox"
                             name="actividad"
                             value="Atención a alumno"
                         >
+
                         Atención a alumno
+
                     </label>
 
+
+
                     <label class="actividad">
+
                         <input
                             type="checkbox"
                             name="actividad"
                             value="Atención a docente"
                         >
+
                         Atención a docente
+
                     </label>
 
+
+
                     <label class="actividad">
+
                         <input
                             type="checkbox"
                             name="actividad"
                             value="Seguimiento a alumnos con riesgo académico"
                         >
+
                         Seguimiento a alumnos con riesgo académico
+
                     </label>
 
+
+
                     <label class="actividad">
+
                         <input
                             type="checkbox"
                             name="actividad"
                             value="Canalización a OE"
                         >
+
                         Canalización a OE
+
                     </label>
 
+
+
                     <label class="actividad">
+
                         <input
                             type="checkbox"
                             name="actividad"
                             value="Aplicar estrategias de estudio"
                         >
+
                         Aplicar estrategias de estudio
+
                     </label>
-                    
- <label class="actividad">
+
+
+
+                    <label class="actividad">
+
                         <input
                             type="checkbox"
                             name="actividad"
                             value="Módulos aun no competentes"
                         >
+
                         Módulos aun no competentes
+
                     </label>
 
-                     <label class="actividad">
+
+
+                    <label class="actividad">
+
                         <input
                             type="checkbox"
                             name="actividad"
                             value="Inasistencias"
                         >
+
                         Inasistencias
+
                     </label>
 
-                     <label class="actividad">
+
+
+                    <label class="actividad">
+
                         <input
                             type="checkbox"
                             name="actividad"
                             value="Bienestar escolar"
                         >
+
                         Bienestar escolar
+
                     </label>
-                     <label class="actividad">
+
+
+
+                    <label class="actividad">
+
                         <input
                             type="checkbox"
                             name="actividad"
                             value="Visita a domicilio"
                         >
+
                         Visita a domicilio
+
                     </label>
 
+
+
                     <label class="actividad">
+
                         <input
                             type="checkbox"
                             name="actividad"
                             value="Labores Administrativas"
                         >
+
                         Labores Administrativas
+
                     </label>
 
-                      <label class="actividad">
+
+
+                    <label class="actividad">
+
                         <input
                             type="checkbox"
                             name="actividad"
                             value="Apoyo a Talleres"
                         >
+
                         Apoyo a Talleres
+
                     </label>
+
+
                 </div>
 
             </div>
 
 
+
+            <!-- ================================================= -->
+            <!-- DESCRIPCIÓN -->
+            <!-- ================================================= -->
+
             <div class="campo campo-completo">
 
                 <label for="descripcion">
+
                     Actividades desarrolladas / Observaciones
+
                 </label>
+
 
                 <textarea
                     id="descripcion"
@@ -604,6 +1041,9 @@
             </div>
 
 
+
+            <!-- BOTÓN -->
+
             <div class="botones">
 
                 <button
@@ -613,44 +1053,94 @@
                 >
                     Guardar registro
                 </button>
-</div>
+
+            </div>
+
 
         </form>
+
 
         <div id="mensaje"></div>
 
     </section>
 
 
+
+    <!-- ================================================= -->
+    <!-- REGISTROS -->
+    <!-- ================================================= -->
+
     <section class="tarjeta">
+
 
         <div class="titulo-registros">
 
+
             <div>
-                <h2>Registros de la bitácora</h2>
-                <p>Consulta de actividades registradas.</p>
+
+                <h2>
+                    Registros de la bitácora
+                </h2>
+
+                <p>
+                    Consulta de actividades registradas.
+                </p>
+
             </div>
 
+
             <div class="contador">
+
                 Total:
-                <strong id="totalRegistros">0</strong>
+                <strong id="totalRegistros">
+                    0
+                </strong>
+
             </div>
+
 
         </div>
 
 
+
+        <!-- ================================================= -->
+        <!-- FILTROS -->
+        <!-- ================================================= -->
+
         <div class="filtros">
 
+
+            <!-- FECHA -->
+
             <div class="campo">
-                <label>Fecha</label>
-                <input type="date" id="filtroFecha">
+
+                <label>
+                    Fecha
+                </label>
+
+                <input
+                    type="date"
+                    id="filtroFecha"
+                >
+
             </div>
 
+
+
+            <!-- GRUPO -->
+
             <div class="campo">
-                <label>Grupo</label>
+
+                <label>
+                    Grupo
+                </label>
+
 
                 <select id="filtroGrupo">
-                    <option value="">Todos</option>
+
+                    <option value="">
+                        Todos
+                    </option>
 
                     <option>101</option>
                     <option>102</option>
@@ -680,6 +1170,11 @@
                     <option>313</option>
                     <option>314</option>
 
+                    <option>351</option>
+                    <option>352</option>
+                    <option>353</option>
+                    <option>354</option>
+
                     <option>501</option>
                     <option>502</option>
                     <option>503</option>
@@ -692,38 +1187,62 @@
                     <option>513</option>
                     <option>514</option>
 
-                    <option>351</option>
-                        <option>352</option>
-                        <option>353</option>
-                        <option>354</option>
-                        <option>551</option>
-                        <option>552</option>
-                        <option>553</option>
-                        <option>554</option>
-                    
+                    <option>551</option>
+                    <option>552</option>
+                    <option>553</option>
+                    <option>554</option>
+
                 </select>
+
             </div>
 
+
+
+            <!-- TTA -->
+
             <div class="campo">
-                <label>Buscar TTA/OE/TB</label>
+
+                <label>
+                    Buscar TTA/OE/TB
+                </label>
+
                 <input
                     type="text"
                     id="filtroTTA"
                     placeholder="Nombre del TTA"
                 >
+
             </div>
 
+
+
+            <!-- ALUMNO -->
+
             <div class="campo">
-                <label>Buscar alumno</label>
+
+                <label>
+                    Buscar alumno
+                </label>
+
                 <input
                     type="text"
                     id="filtroAlumno"
                     placeholder="Nombre del alumno"
                 >
+
             </div>
 
+
+
+            <!-- BOTONES -->
+
             <div class="campo boton-filtro">
-                <label>&nbsp;</label>
+
+                <label>
+                    &nbsp;
+                </label>
+
+
                 <button
                     type="button"
                     id="btnLimpiarFiltros"
@@ -732,6 +1251,7 @@
                     Limpiar filtros
                 </button>
 
+
                 <button
                     type="button"
                     id="btnDescargarExcel"
@@ -739,74 +1259,141 @@
                 >
                     📊 Descargar Excel
                 </button>
+
             </div>
+
 
         </div>
 
 
+
+        <!-- ================================================= -->
+        <!-- TABLA -->
+        <!-- ================================================= -->
+
         <div class="tabla-contenedor">
+
 
             <table>
 
+
                 <thead>
+
                     <tr>
-                        <th>Fecha</th>
-                        <th>TTA/OE/TB</th>
-                        <th>Grupo</th>
-                        <th>Alumno</th>
-                        <th>Actividad</th>
-                        <th>Actividades desarrolladas</th>
+
+                        <th>
+                            Fecha
+                        </th>
+
+                        <th>
+                            TTA/OE/TB
+                        </th>
+
+                        <th>
+                            Grupo
+                        </th>
+
+                        <th>
+                            Alumno
+                        </th>
+
+                        <th>
+                            Actividad
+                        </th>
+
+                        <th>
+                            Actividades desarrolladas
+                        </th>
+
                     </tr>
+
                 </thead>
+
+
 
                 <tbody id="tablaRegistros">
 
                     <tr>
-                        <td colspan="6" class="sin-registros">
+
+                        <td
+                            colspan="6"
+                            class="sin-registros"
+                        >
                             Cargando registros...
                         </td>
+
                     </tr>
 
                 </tbody>
 
+
             </table>
+
 
         </div>
 
+
     </section>
+
 
 </main>
 
 
+
 <footer>
+
     Sistema de Bitácora de Atención Tutorial
+
 </footer>
 
 
-<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+<!-- ===================================================== -->
+<!-- LIBRERÍA EXCEL -->
+<!-- ===================================================== -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"
+></script>
+
+
+
+<!-- ===================================================== -->
+<!-- FIREBASE -->
+<!-- ===================================================== -->
 
 <script type="module">
 
-    // =====================================================
-    // FIREBASE
-    // =====================================================
-
-    import { initializeApp }
-    from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 
     import {
-        getFirestore,
-        collection,
-        addDoc,
-        onSnapshot,
-        serverTimestamp,
-        query,
-        orderBy,
-        limit,
-        where,
-        getDocs
+        initializeApp
     }
-    from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+    from
+    "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+
+    import {
+
+        getFirestore,
+
+        collection,
+
+        addDoc,
+
+        onSnapshot,
+
+        serverTimestamp,
+
+        query,
+
+        orderBy
+
+    }
+
+    from
+    "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
 
 
     // =====================================================
@@ -814,25 +1401,47 @@
     // =====================================================
 
     const firebaseConfig = {
-        apiKey: "AIzaSyAl_h00T4sZB_ShZ-1QPIFnwubjLCmBNvw",
-        authDomain: "bitacora-tta.firebaseapp.com",
-        projectId: "bitacora-tta",
-        storageBucket: "bitacora-tta.firebasestorage.app",
-        messagingSenderId: "393700999811",
-        appId: "1:393700999811:web:ddc42407a7783464e091b6"
+
+        apiKey:
+            "AIzaSyAl_h00T4sZB_ShZ-1QPIFnwubjLCmBNvw",
+
+        authDomain:
+            "bitacora-tta.firebaseapp.com",
+
+        projectId:
+            "bitacora-tta",
+
+        storageBucket:
+            "bitacora-tta.firebasestorage.app",
+
+        messagingSenderId:
+            "393700999811",
+
+        appId:
+            "1:393700999811:web:ddc42407a7783464e091b6"
+
     };
+
 
 
     // =====================================================
     // INICIAR FIREBASE
     // =====================================================
 
-    const app = initializeApp(firebaseConfig);
+    const app =
+        initializeApp(firebaseConfig);
 
-    const db = getFirestore(app);
+
+    const db =
+        getFirestore(app);
+
 
     const coleccionBitacora =
-        collection(db, "bitacora_tutorial");
+        collection(
+            db,
+            "bitacora_tutorial"
+        );
+
 
 
     // =====================================================
@@ -840,64 +1449,115 @@
     // =====================================================
 
     const formulario =
-        document.getElementById("formBitacora");
+        document.getElementById(
+            "formBitacora"
+        );
+
 
     const fecha =
-        document.getElementById("fecha");
+        document.getElementById(
+            "fecha"
+        );
+
 
     const tta =
-        document.getElementById("tta");
+        document.getElementById(
+            "tta"
+        );
+
 
     const grupo =
-        document.getElementById("grupo");
+        document.getElementById(
+            "grupo"
+        );
+
 
     const alumno =
-        document.getElementById("alumno");
+        document.getElementById(
+            "alumno"
+        );
+
 
     const descripcion =
-        document.getElementById("descripcion");
+        document.getElementById(
+            "descripcion"
+        );
+
 
     const mensaje =
-        document.getElementById("mensaje");
+        document.getElementById(
+            "mensaje"
+        );
+
 
     const btnGuardar =
-        document.getElementById("btnGuardar");
+        document.getElementById(
+            "btnGuardar"
+        );
+
 
     const tablaRegistros =
-        document.getElementById("tablaRegistros");
+        document.getElementById(
+            "tablaRegistros"
+        );
+
 
     const totalRegistros =
-        document.getElementById("totalRegistros");
+        document.getElementById(
+            "totalRegistros"
+        );
+
 
     const filtroFecha =
-        document.getElementById("filtroFecha");
+        document.getElementById(
+            "filtroFecha"
+        );
+
 
     const filtroGrupo =
-        document.getElementById("filtroGrupo");
+        document.getElementById(
+            "filtroGrupo"
+        );
+
 
     const filtroTTA =
-        document.getElementById("filtroTTA");
+        document.getElementById(
+            "filtroTTA"
+        );
+
 
     const filtroAlumno =
-        document.getElementById("filtroAlumno");
+        document.getElementById(
+            "filtroAlumno"
+        );
+
 
     const btnLimpiarFiltros =
-        document.getElementById("btnLimpiarFiltros");
+        document.getElementById(
+            "btnLimpiarFiltros"
+        );
+
 
     const btnDescargarExcel =
-        document.getElementById("btnDescargarExcel");
+        document.getElementById(
+            "btnDescargarExcel"
+        );
+
 
 
     // =====================================================
     // VARIABLES
     // =====================================================
 
-    // Estos son SOLO los registros que se muestran en la tabla.
-    // La tabla mostrará únicamente los últimos 10.
+    // TODOS LOS REGISTROS QUE VIENEN DE FIRESTORE
 
-    let registros = [];
+    let todosLosRegistros = [];
 
-    let cancelarConsulta = null;
+
+    // REGISTROS QUE ACTUALMENTE APARECEN EN LA TABLA
+
+    let registrosMostrados = [];
+
 
 
     // =====================================================
@@ -906,24 +1566,40 @@
 
     function establecerFechaActual() {
 
-        const hoy = new Date();
+        const hoy =
+            new Date();
+
 
         const anio =
             hoy.getFullYear();
 
+
         const mes =
-            String(hoy.getMonth() + 1)
-                .padStart(2, "0");
+            String(
+                hoy.getMonth() + 1
+            ).padStart(
+                2,
+                "0"
+            );
+
 
         const dia =
-            String(hoy.getDate())
-                .padStart(2, "0");
+            String(
+                hoy.getDate()
+            ).padStart(
+                2,
+                "0"
+            );
+
 
         fecha.value =
             `${anio}-${mes}-${dia}`;
+
     }
 
+
     establecerFechaActual();
+
 
 
     // =====================================================
@@ -937,46 +1613,77 @@
                 'input[name="actividad"]:checked'
             );
 
+
         return Array
             .from(seleccionadas)
             .map(
-                actividad => actividad.value
+                actividad =>
+                    actividad.value
             );
+
     }
+
 
 
     // =====================================================
     // MOSTRAR MENSAJE
     // =====================================================
 
-    function mostrarMensaje(texto, tipo) {
+    function mostrarMensaje(
+        texto,
+        tipo
+    ) {
 
         mensaje.innerHTML = "";
 
-        const div =
-            document.createElement("div");
 
-        if (tipo === "exito") {
+        const div =
+            document.createElement(
+                "div"
+            );
+
+
+        if (
+            tipo === "exito"
+        ) {
 
             div.className =
                 "mensaje-exito";
 
-        } else {
+        }
+
+        else {
 
             div.className =
                 "mensaje-error";
+
         }
 
-        div.textContent = texto;
 
-        mensaje.appendChild(div);
+        div.textContent =
+            texto;
 
-        setTimeout(() => {
 
-            mensaje.innerHTML = "";
+        mensaje.appendChild(
+            div
+        );
 
-        }, 5000);
+
+        setTimeout(
+
+            () => {
+
+                mensaje.innerHTML =
+                    "";
+
+            },
+
+            5000
+
+        );
+
     }
+
 
 
     // =====================================================
@@ -989,15 +1696,8 @@
 
         establecerFechaActual();
 
-        document
-            .querySelectorAll(
-                'input[name="actividad"]'
-            )
-            .forEach(
-                checkbox =>
-                    checkbox.checked = false
-            );
     }
+
 
 
     // =====================================================
@@ -1005,23 +1705,32 @@
     // =====================================================
 
     formulario.addEventListener(
+
         "submit",
+
         async function(evento) {
 
             evento.preventDefault();
+
 
             const actividades =
                 obtenerActividades();
 
 
-            if (actividades.length === 0) {
+            if (
+                actividades.length === 0
+            ) {
 
                 mostrarMensaje(
+
                     "Seleccione por lo menos una actividad.",
+
                     "error"
+
                 );
 
                 return;
+
             }
 
 
@@ -1050,26 +1759,35 @@
 
                 ultimaActualizacion:
                     serverTimestamp()
+
             };
 
 
             try {
 
-                btnGuardar.disabled = true;
+                btnGuardar.disabled =
+                    true;
+
 
                 btnGuardar.textContent =
                     "Guardando...";
 
 
                 await addDoc(
+
                     coleccionBitacora,
+
                     datos
+
                 );
 
 
                 mostrarMensaje(
+
                     "Registro guardado correctamente.",
+
                     "exito"
+
                 );
 
 
@@ -1080,595 +1798,105 @@
 
             catch(error) {
 
-                console.error(error);
+                console.error(
+                    error
+                );
+
 
                 mostrarMensaje(
+
                     "Error al guardar: "
                     + error.message,
+
                     "error"
+
                 );
 
             }
 
             finally {
 
-                btnGuardar.disabled = false;
+                btnGuardar.disabled =
+                    false;
+
 
                 btnGuardar.textContent =
                     "Guardar registro";
+
             }
 
         }
+
     );
 
 
-    // =====================================================
-    // CONSTRUIR CONSULTA PARA LA TABLA
-    // =====================================================
-    //
-    // IMPORTANTE:
-    //
-    // La tabla solamente muestra los últimos 10.
-    //
-    // Los filtros se realizan DIRECTAMENTE EN FIRESTORE.
-    //
-    // =====================================================
-
-    function construirConsultaTabla() {
-
-        const buscarFecha =
-            filtroFecha.value;
-
-        const buscarGrupo =
-            filtroGrupo.value;
-
-        const buscarTTA =
-            filtroTTA.value.trim();
-
-        const buscarAlumno =
-            filtroAlumno.value.trim();
-
-
-        const condiciones = [];
-
-
-        // -------------------------------
-        // FILTRO FECHA
-        // -------------------------------
-
-        if (buscarFecha) {
-
-            condiciones.push(
-                where(
-                    "fecha",
-                    "==",
-                    buscarFecha
-                )
-            );
-        }
-
-
-        // -------------------------------
-        // FILTRO GRUPO
-        // -------------------------------
-
-        if (
-            buscarGrupo &&
-            buscarGrupo !== "todos"
-        ) {
-
-            condiciones.push(
-                where(
-                    "grupo",
-                    "==",
-                    buscarGrupo
-                )
-            );
-        }
-
-
-        // -------------------------------
-        // FILTRO TTA
-        // -------------------------------
-
-        if (buscarTTA) {
-
-            condiciones.push(
-                where(
-                    "tta",
-                    ">=",
-                    buscarTTA
-                )
-            );
-
-            condiciones.push(
-                where(
-                    "tta",
-                    "<=",
-                    buscarTTA + "\uf8ff"
-                )
-            );
-        }
-
-
-        // -------------------------------
-        // FILTRO ALUMNO
-        // -------------------------------
-
-        if (buscarAlumno) {
-
-            condiciones.push(
-                where(
-                    "alumno",
-                    ">=",
-                    buscarAlumno
-                )
-            );
-
-            condiciones.push(
-                where(
-                    "alumno",
-                    "<=",
-                    buscarAlumno + "\uf8ff"
-                )
-            );
-        }
-
-
-        // =================================================
-        // IMPORTANTE
-        //
-        // limit(10) solamente afecta a la TABLA.
-        //
-        // No afecta a Excel.
-        // =================================================
-
-        return query(
-
-            coleccionBitacora,
-
-            ...condiciones,
-
-            orderBy(
-                "creado",
-                "desc"
-            ),
-
-            limit(10)
-        );
-    }
-
 
     // =====================================================
-    // CONSULTAR FIRESTORE PARA LA TABLA
+    // CONSULTAR TODOS LOS REGISTROS
     // =====================================================
 
     function consultarFirestore() {
 
-        if (cancelarConsulta) {
-
-            cancelarConsulta();
-
-            cancelarConsulta = null;
-        }
-
 
         tablaRegistros.innerHTML = `
+
             <tr>
-                <td colspan="6"
-                    class="sin-registros">
+
+                <td
+                    colspan="6"
+                    class="sin-registros"
+                >
+
                     Consultando base de datos...
+
                 </td>
+
             </tr>
+
         `;
 
 
+        /*
+         * IMPORTANTE:
+         *
+         * NO utilizamos limit(10).
+         *
+         * NO utilizamos where().
+         *
+         * Firestore entrega TODOS los documentos.
+         *
+         * Después JavaScript aplica los filtros.
+         */
+
+
         const consulta =
-            construirConsultaTabla();
+            query(
 
+                coleccionBitacora,
 
-        cancelarConsulta =
-            onSnapshot(
-
-                consulta,
-
-                (snapshot) => {
-
-                    registros = [];
-
-
-                    snapshot.forEach(
-                        documento => {
-
-                            registros.push({
-
-                                id:
-                                    documento.id,
-
-                                ...documento.data()
-
-                            });
-
-                        }
-                    );
-
-
-                    mostrarRegistros();
-
-                },
-
-
-                (error) => {
-
-                    console.error(
-                        "Error en consulta Firestore:",
-                        error
-                    );
-
-
-                    tablaRegistros.innerHTML = `
-                        <tr>
-                            <td colspan="6"
-                                class="sin-registros">
-
-                                Error al consultar Firebase.
-
-                                <br><br>
-
-                                ${error.message}
-
-                            </td>
-                        </tr>
-                    `;
-
-
-                    totalRegistros.textContent =
-                        "0";
-                }
-            );
-    }
-
-
-    // =====================================================
-    // MOSTRAR REGISTROS EN TABLA
-    // =====================================================
-
-    function mostrarRegistros() {
-
-        totalRegistros.textContent =
-            registros.length;
-
-
-        tablaRegistros.innerHTML = "";
-
-
-        if (registros.length === 0) {
-
-            tablaRegistros.innerHTML = `
-                <tr>
-                    <td colspan="6"
-                        class="sin-registros">
-
-                        No existen registros
-                        para la consulta.
-
-                    </td>
-                </tr>
-            `;
-
-            return;
-        }
-
-
-        registros.forEach(
-
-            registro => {
-
-                const fila =
-                    document.createElement("tr");
-
-
-                // -----------------------------
-                // FECHA
-                // -----------------------------
-
-                const tdFecha =
-                    document.createElement("td");
-
-                tdFecha.textContent =
-                    convertirFecha(
-                        registro.fecha
-                    );
-
-
-                // -----------------------------
-                // TTA
-                // -----------------------------
-
-                const tdTTA =
-                    document.createElement("td");
-
-                tdTTA.textContent =
-                    registro.tta || "";
-
-
-                // -----------------------------
-                // GRUPO
-                // -----------------------------
-
-                const tdGrupo =
-                    document.createElement("td");
-
-                tdGrupo.textContent =
-                    registro.grupo || "";
-
-
-                // -----------------------------
-                // ALUMNO
-                // -----------------------------
-
-                const tdAlumno =
-                    document.createElement("td");
-
-                tdAlumno.textContent =
-                    registro.alumno ||
-                    "No especificado";
-
-
-                // -----------------------------
-                // ACTIVIDADES
-                // -----------------------------
-
-                const tdActividades =
-                    document.createElement("td");
-
-
-                if (
-                    Array.isArray(
-                        registro.actividades
-                    )
-                ) {
-
-                    registro.actividades.forEach(
-
-                        actividad => {
-
-                            const etiqueta =
-                                document.createElement(
-                                    "span"
-                                );
-
-                            etiqueta.className =
-                                "actividad-etiqueta";
-
-                            etiqueta.textContent =
-                                actividad;
-
-                            tdActividades.appendChild(
-                                etiqueta
-                            );
-                        }
-                    );
-                }
-
-
-                // -----------------------------
-                // DESCRIPCIÓN
-                // -----------------------------
-
-                const tdDescripcion =
-                    document.createElement("td");
-
-                tdDescripcion.textContent =
-                    registro.descripcion || "";
-
-
-                // -----------------------------
-                // AGREGAR FILA
-                // -----------------------------
-
-                fila.appendChild(tdFecha);
-
-                fila.appendChild(tdTTA);
-
-                fila.appendChild(tdGrupo);
-
-                fila.appendChild(tdAlumno);
-
-                fila.appendChild(tdActividades);
-
-                fila.appendChild(tdDescripcion);
-
-
-                tablaRegistros.appendChild(fila);
-            }
-        );
-    }
-
-
-    // =====================================================
-    // CONSTRUIR CONSULTA PARA EXCEL
-    // =====================================================
-    //
-    // ESTA CONSULTA NO TIENE limit(10).
-    //
-    // Por lo tanto:
-    //
-    // Excel puede obtener TODOS los registros de Firestore.
-    //
-    // =====================================================
-
-    function construirConsultaExcel() {
-
-        const buscarFecha =
-            filtroFecha.value;
-
-        const buscarGrupo =
-            filtroGrupo.value;
-
-        const buscarTTA =
-            filtroTTA.value.trim();
-
-        const buscarAlumno =
-            filtroAlumno.value.trim();
-
-
-        const condiciones = [];
-
-
-        // -------------------------------
-        // FECHA
-        // -------------------------------
-
-        if (buscarFecha) {
-
-            condiciones.push(
-                where(
-                    "fecha",
-                    "==",
-                    buscarFecha
+                orderBy(
+                    "creado",
+                    "desc"
                 )
-            );
-        }
 
-
-        // -------------------------------
-        // GRUPO
-        // -------------------------------
-
-        if (
-            buscarGrupo &&
-            buscarGrupo !== "todos"
-        ) {
-
-            condiciones.push(
-                where(
-                    "grupo",
-                    "==",
-                    buscarGrupo
-                )
-            );
-        }
-
-
-        // -------------------------------
-        // TTA
-        // -------------------------------
-
-        if (buscarTTA) {
-
-            condiciones.push(
-                where(
-                    "tta",
-                    ">=",
-                    buscarTTA
-                )
             );
 
-            condiciones.push(
-                where(
-                    "tta",
-                    "<=",
-                    buscarTTA + "\uf8ff"
-                )
-            );
-        }
+
+        onSnapshot(
+
+            consulta,
+
+            (snapshot) => {
 
 
-        // -------------------------------
-        // ALUMNO
-        // -------------------------------
-
-        if (buscarAlumno) {
-
-            condiciones.push(
-                where(
-                    "alumno",
-                    ">=",
-                    buscarAlumno
-                )
-            );
-
-            condiciones.push(
-                where(
-                    "alumno",
-                    "<=",
-                    buscarAlumno + "\uf8ff"
-                )
-            );
-        }
-
-
-        // =================================================
-        // AQUÍ NO HAY limit(10)
-        // =================================================
-
-        return query(
-
-            coleccionBitacora,
-
-            ...condiciones,
-
-            orderBy(
-                "creado",
-                "desc"
-            )
-        );
-    }
-
-
-    // =====================================================
-    // DESCARGAR EXCEL
-    // =====================================================
-    //
-    // IMPORTANTE:
-    //
-    // El Excel NO utiliza "registros".
-    //
-    // Hace una NUEVA CONSULTA DIRECTAMENTE A FIRESTORE.
-    //
-    // =====================================================
-
-    btnDescargarExcel.addEventListener(
-
-        "click",
-
-        async () => {
-
-            try {
-
-                btnDescargarExcel.disabled = true;
-
-                btnDescargarExcel.textContent =
-                    "⏳ Consultando base de datos...";
-
-
-                // -----------------------------------------
-                // CONSULTAR FIRESTORE
-                // -----------------------------------------
-
-                const consultaExcel =
-                    construirConsultaExcel();
-
-
-                const snapshot =
-                    await getDocs(
-                        consultaExcel
-                    );
-
-
-                // -----------------------------------------
-                // CONVERTIR DOCUMENTOS
-                // -----------------------------------------
-
-                const registrosExcel = [];
+                todosLosRegistros = [];
 
 
                 snapshot.forEach(
 
                     documento => {
 
-                        registrosExcel.push({
+                        todosLosRegistros.push({
 
                             id:
                                 documento.id,
@@ -1678,110 +1906,640 @@
                         });
 
                     }
+
                 );
 
 
-                // -----------------------------------------
-                // VERIFICAR
-                // -----------------------------------------
+                /*
+                 * Al recibir datos nuevos:
+                 *
+                 * mostramos todos los registros.
+                 */
 
-                if (
-                    registrosExcel.length === 0
-                ) {
+                aplicarFiltros();
 
-                    mostrarMensaje(
-                        "No existen registros para descargar.",
-                        "error"
+            },
+
+
+            (error) => {
+
+                console.error(
+                    "Error en Firestore:",
+                    error
+                );
+
+
+                tablaRegistros.innerHTML = `
+
+                    <tr>
+
+                        <td
+                            colspan="6"
+                            class="sin-registros"
+                        >
+
+                            Error al consultar Firebase.
+
+                            <br><br>
+
+                            ${error.message}
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+
+                totalRegistros.textContent =
+                    "0";
+
+            }
+
+        );
+
+    }
+
+
+
+    // =====================================================
+    // APLICAR FILTROS
+    // =====================================================
+
+    function aplicarFiltros() {
+
+
+        const buscarFecha =
+            filtroFecha.value
+                .trim();
+
+
+        const buscarGrupo =
+            filtroGrupo.value
+                .trim();
+
+
+        const buscarTTA =
+            filtroTTA.value
+                .trim()
+                .toLowerCase();
+
+
+        const buscarAlumno =
+            filtroAlumno.value
+                .trim()
+                .toLowerCase();
+
+
+
+        registrosMostrados =
+            todosLosRegistros.filter(
+
+                registro => {
+
+
+                    // -------------------------------------
+                    // FILTRO FECHA
+                    // -------------------------------------
+
+                    if (
+                        buscarFecha &&
+                        registro.fecha !==
+                        buscarFecha
+                    ) {
+
+                        return false;
+
+                    }
+
+
+
+                    // -------------------------------------
+                    // FILTRO GRUPO
+                    // -------------------------------------
+
+                    if (
+                        buscarGrupo &&
+                        registro.grupo !==
+                        buscarGrupo
+                    ) {
+
+                        return false;
+
+                    }
+
+
+
+                    // -------------------------------------
+                    // FILTRO TTA
+                    // -------------------------------------
+
+                    if (buscarTTA) {
+
+                        const nombreTTA =
+                            (
+                                registro.tta ||
+                                ""
+                            )
+                            .toLowerCase();
+
+
+                        if (
+                            !nombreTTA.includes(
+                                buscarTTA
+                            )
+                        ) {
+
+                            return false;
+
+                        }
+
+                    }
+
+
+
+                    // -------------------------------------
+                    // FILTRO ALUMNO
+                    // -------------------------------------
+
+                    if (buscarAlumno) {
+
+                        const nombreAlumno =
+                            (
+                                registro.alumno ||
+                                ""
+                            )
+                            .toLowerCase();
+
+
+                        if (
+                            !nombreAlumno.includes(
+                                buscarAlumno
+                            )
+                        ) {
+
+                            return false;
+
+                        }
+
+                    }
+
+
+                    return true;
+
+                }
+
+            );
+
+
+        mostrarRegistros();
+
+    }
+
+
+
+    // =====================================================
+    // MOSTRAR REGISTROS
+    // =====================================================
+
+    function mostrarRegistros() {
+
+
+        totalRegistros.textContent =
+            registrosMostrados.length;
+
+
+        tablaRegistros.innerHTML =
+            "";
+
+
+        if (
+            registrosMostrados.length === 0
+        ) {
+
+            tablaRegistros.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="6"
+                        class="sin-registros"
+                    >
+
+                        No existen registros
+                        para la consulta.
+
+                    </td>
+
+                </tr>
+
+            `;
+
+            return;
+
+        }
+
+
+
+        registrosMostrados.forEach(
+
+            registro => {
+
+
+                const fila =
+                    document.createElement(
+                        "tr"
                     );
 
-                    return;
+
+
+                // -------------------------------------
+                // FECHA
+                // -------------------------------------
+
+                const tdFecha =
+                    document.createElement(
+                        "td"
+                    );
+
+
+                tdFecha.textContent =
+                    convertirFecha(
+                        registro.fecha
+                    );
+
+
+
+                // -------------------------------------
+                // TTA
+                // -------------------------------------
+
+                const tdTTA =
+                    document.createElement(
+                        "td"
+                    );
+
+
+                tdTTA.textContent =
+                    registro.tta ||
+                    "";
+
+
+
+                // -------------------------------------
+                // GRUPO
+                // -------------------------------------
+
+                const tdGrupo =
+                    document.createElement(
+                        "td"
+                    );
+
+
+                tdGrupo.textContent =
+                    registro.grupo ||
+                    "";
+
+
+
+                // -------------------------------------
+                // ALUMNO
+                // -------------------------------------
+
+                const tdAlumno =
+                    document.createElement(
+                        "td"
+                    );
+
+
+                tdAlumno.textContent =
+                    registro.alumno ||
+                    "No especificado";
+
+
+
+                // -------------------------------------
+                // ACTIVIDADES
+                // -------------------------------------
+
+                const tdActividades =
+                    document.createElement(
+                        "td"
+                    );
+
+
+                if (
+                    Array.isArray(
+                        registro.actividades
+                    )
+                ) {
+
+
+                    registro.actividades.forEach(
+
+                        actividad => {
+
+
+                            const etiqueta =
+                                document.createElement(
+                                    "span"
+                                );
+
+
+                            etiqueta.className =
+                                "actividad-etiqueta";
+
+
+                            etiqueta.textContent =
+                                actividad;
+
+
+                            tdActividades.appendChild(
+                                etiqueta
+                            );
+
+                        }
+
+                    );
+
                 }
 
 
-                // -----------------------------------------
-                // ORDENAR POR FECHA DE CREACIÓN
-                // -----------------------------------------
 
-                registrosExcel.sort(
+                // -------------------------------------
+                // DESCRIPCIÓN
+                // -------------------------------------
 
-                    (a, b) => {
-
-                        let fechaA = 0;
-                        let fechaB = 0;
-
-
-                        if (
-                            a.creado &&
-                            typeof a.creado.toMillis ===
-                            "function"
-                        ) {
-
-                            fechaA =
-                                a.creado.toMillis();
-                        }
+                const tdDescripcion =
+                    document.createElement(
+                        "td"
+                    );
 
 
-                        if (
-                            b.creado &&
-                            typeof b.creado.toMillis ===
-                            "function"
-                        ) {
-
-                            fechaB =
-                                b.creado.toMillis();
-                        }
+                tdDescripcion.textContent =
+                    registro.descripcion ||
+                    "";
 
 
-                        return fechaB - fechaA;
-                    }
+
+                // -------------------------------------
+                // ARMAR FILA
+                // -------------------------------------
+
+                fila.appendChild(
+                    tdFecha
                 );
 
 
+                fila.appendChild(
+                    tdTTA
+                );
+
+
+                fila.appendChild(
+                    tdGrupo
+                );
+
+
+                fila.appendChild(
+                    tdAlumno
+                );
+
+
+                fila.appendChild(
+                    tdActividades
+                );
+
+
+                fila.appendChild(
+                    tdDescripcion
+                );
+
+
+                tablaRegistros.appendChild(
+                    fila
+                );
+
+            }
+
+        );
+
+    }
+
+
+
+    // =====================================================
+    // EVENTOS DE FILTROS
+    // =====================================================
+
+    filtroFecha.addEventListener(
+
+        "change",
+
+        aplicarFiltros
+
+    );
+
+
+    filtroGrupo.addEventListener(
+
+        "change",
+
+        aplicarFiltros
+
+    );
+
+
+    /*
+     * Para TTA y alumno utilizamos "input"
+     * para que el resultado cambie conforme
+     * se escribe.
+     */
+
+    filtroTTA.addEventListener(
+
+        "input",
+
+        aplicarFiltros
+
+    );
+
+
+    filtroAlumno.addEventListener(
+
+        "input",
+
+        aplicarFiltros
+
+    );
+
+
+
+    // =====================================================
+    // LIMPIAR FILTROS
+    // =====================================================
+
+    btnLimpiarFiltros.addEventListener(
+
+        "click",
+
+        () => {
+
+
+            filtroFecha.value =
+                "";
+
+
+            filtroGrupo.value =
+                "";
+
+
+            filtroTTA.value =
+                "";
+
+
+            filtroAlumno.value =
+                "";
+
+
+            aplicarFiltros();
+
+        }
+
+    );
+
+
+
+    // =====================================================
+    // EXCEL
+    // =====================================================
+    //
+    // IMPORTANTE:
+    //
+    // Excel utiliza registrosMostrados.
+    //
+    // Es decir:
+    //
+    // EXACTAMENTE lo que aparece en la tabla.
+    //
+    // =====================================================
+
+    btnDescargarExcel.addEventListener(
+
+        "click",
+
+        () => {
+
+
+            try {
+
+
+                if (
+                    registrosMostrados.length === 0
+                ) {
+
+                    mostrarMensaje(
+
+                        "No existen registros en la tabla para descargar.",
+
+                        "error"
+
+                    );
+
+                    return;
+
+                }
+
+
+
+                btnDescargarExcel.disabled =
+                    true;
+
+
+                btnDescargarExcel.textContent =
+                    "⏳ Generando Excel...";
+
+
+
                 // -----------------------------------------
-                // PREPARAR EXCEL
+                // CONVERTIR TABLA A DATOS EXCEL
                 // -----------------------------------------
 
                 const datosExcel =
-                    registrosExcel.map(
+
+                    registrosMostrados.map(
 
                         (registro, indice) => {
 
+
                             return {
 
+
                                 "No.":
+
                                     indice + 1,
 
+
+
                                 "Fecha":
+
                                     convertirFecha(
-                                        registro.fecha || ""
+                                        registro.fecha ||
+                                        ""
                                     ),
 
+
+
                                 "TTA/OE/TB":
-                                    registro.tta || "",
+
+                                    registro.tta ||
+                                    "",
+
+
 
                                 "Grupo":
-                                    registro.grupo || "",
+
+                                    registro.grupo ||
+                                    "",
+
+
 
                                 "Alumno":
-                                    registro.alumno || "",
+
+                                    registro.alumno ||
+                                    "",
+
+
 
                                 "Actividad":
+
                                     Array.isArray(
                                         registro.actividades
                                     )
+
                                     ?
+
                                     registro.actividades.join(
                                         ", "
                                     )
+
                                     :
+
                                     "",
 
+
+
                                 "Actividades desarrolladas / Observaciones":
-                                    registro.descripcion || ""
+
+                                    registro.descripcion ||
+                                    ""
 
                             };
+
                         }
+
                     );
+
 
 
                 // -----------------------------------------
@@ -1794,23 +2552,39 @@
                     );
 
 
+
                 hoja["!cols"] = [
 
-                    { wch: 7 },
+                    {
+                        wch: 7
+                    },
 
-                    { wch: 14 },
+                    {
+                        wch: 14
+                    },
 
-                    { wch: 40 },
+                    {
+                        wch: 40
+                    },
 
-                    { wch: 10 },
+                    {
+                        wch: 10
+                    },
 
-                    { wch: 35 },
+                    {
+                        wch: 35
+                    },
 
-                    { wch: 60 },
+                    {
+                        wch: 60
+                    },
 
-                    { wch: 80 }
+                    {
+                        wch: 80
+                    }
 
                 ];
+
 
 
                 // -----------------------------------------
@@ -1819,6 +2593,7 @@
 
                 const libro =
                     XLSX.utils.book_new();
+
 
 
                 XLSX.utils.book_append_sheet(
@@ -1832,8 +2607,9 @@
                 );
 
 
+
                 // -----------------------------------------
-                // NOMBRE DEL ARCHIVO
+                // FECHA ARCHIVO
                 // -----------------------------------------
 
                 const ahora =
@@ -1844,13 +2620,22 @@
 
                     ahora.getFullYear()
                     + "-"
-                    + String(
+                    +
+                    String(
                         ahora.getMonth() + 1
-                    ).padStart(2, "0")
+                    ).padStart(
+                        2,
+                        "0"
+                    )
                     + "-"
-                    + String(
+                    +
+                    String(
                         ahora.getDate()
-                    ).padStart(2, "0");
+                    ).padStart(
+                        2,
+                        "0"
+                    );
+
 
 
                 // -----------------------------------------
@@ -1868,19 +2653,24 @@
                 );
 
 
+
                 mostrarMensaje(
 
                     "Excel generado correctamente con "
-                    + registrosExcel.length
-                    + " registros consultados directamente desde Firestore.",
+                    +
+                    registrosMostrados.length
+                    +
+                    " registros.",
 
                     "exito"
 
                 );
 
+
             }
 
             catch(error) {
+
 
                 console.error(
                     "Error al generar Excel:",
@@ -1891,7 +2681,8 @@
                 mostrarMensaje(
 
                     "Error al generar Excel: "
-                    + error.message,
+                    +
+                    error.message,
 
                     "error"
 
@@ -1901,67 +2692,20 @@
 
             finally {
 
+
                 btnDescargarExcel.disabled =
                     false;
 
+
                 btnDescargarExcel.textContent =
                     "📊 Descargar Excel";
+
             }
 
         }
+
     );
 
-
-    // =====================================================
-    // FILTROS
-    // =====================================================
-
-    filtroFecha.addEventListener(
-        "change",
-        consultarFirestore
-    );
-
-
-    filtroGrupo.addEventListener(
-        "change",
-        consultarFirestore
-    );
-
-
-    filtroTTA.addEventListener(
-        "change",
-        consultarFirestore
-    );
-
-
-    filtroAlumno.addEventListener(
-        "change",
-        consultarFirestore
-    );
-
-
-    // =====================================================
-    // LIMPIAR FILTROS
-    // =====================================================
-
-    btnLimpiarFiltros.addEventListener(
-
-        "click",
-
-        () => {
-
-            filtroFecha.value = "";
-
-            filtroGrupo.value = "";
-
-            filtroTTA.value = "";
-
-            filtroAlumno.value = "";
-
-            consultarFirestore();
-
-        }
-    );
 
 
     // =====================================================
@@ -1970,66 +2714,123 @@
 
     function convertirFecha(valor) {
 
+
         if (!valor) {
+
             return "";
+
         }
 
 
-        // Si viene como YYYY-MM-DD
+
+        // -------------------------------------
+        // FECHA YYYY-MM-DD
+        // -------------------------------------
+
         if (
-            typeof valor === "string" &&
-            /^\d{4}-\d{2}-\d{2}$/.test(valor)
+
+            typeof valor ===
+            "string"
+
+            &&
+
+            /^\d{4}-\d{2}-\d{2}$/
+                .test(valor)
+
         ) {
+
 
             const partes =
                 valor.split("-");
 
+
             return (
+
                 partes[2]
                 + "/"
                 + partes[1]
                 + "/"
                 + partes[0]
+
             );
+
         }
 
 
-        // Si es Timestamp de Firebase
+
+        // -------------------------------------
+        // TIMESTAMP FIREBASE
+        // -------------------------------------
+
         if (
-            valor &&
-            typeof valor.toDate === "function"
+
+            valor
+
+            &&
+
+            typeof valor.toDate ===
+            "function"
+
         ) {
+
 
             const fecha =
                 valor.toDate();
 
 
             return (
+
                 String(
                     fecha.getDate()
-                ).padStart(2, "0")
-                + "/"
+                ).padStart(
+                    2,
+                    "0"
+                )
+
                 +
+
+                "/"
+
+                +
+
                 String(
                     fecha.getMonth() + 1
-                ).padStart(2, "0")
-                + "/"
+                ).padStart(
+                    2,
+                    "0"
+                )
+
                 +
+
+                "/"
+
+                +
+
                 fecha.getFullYear()
+
             );
+
         }
 
 
+
         return String(valor);
+
     }
 
 
+
     // =====================================================
-    // INICIAR
+    // INICIAR CONSULTA
     // =====================================================
 
     consultarFirestore();
 
+
 </script>
+
+
 </body>
+
 </html>
+
