@@ -362,15 +362,15 @@
             MTRO. GERARDO GONZALEZ ALMANZA
         </option>
 
-        <option value="MTRO. GERARDO GONZALEZ ALMANZA">
+        <option value="LIC. EMMANUEL GUZMAN ALMANZA">
             LIC. EMMANUEL GUZMAN ALMANZA
         </option>
 
-        <option value="MTRO. GERARDO GONZALEZ ALMANZA">
+        <option value="LIC. JOSELIN  MACIAS MONROY">
             LIC. JOSELIN  MACIAS MONROY
         </option>
 
-        <option value="MTRO. GERARDO GONZALEZ ALMANZA">
+        <option value="LIC. OMAR ULISES CASTRO SALMERON">
             LIC. OMAR ULISES CASTRO SALMERON
         </option>
     </select>
@@ -795,50 +795,44 @@
     from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 
     import {
-    getFirestore,
-    collection,
-    addDoc,
-    onSnapshot,
-    serverTimestamp,
-    query,
-    orderBy,
-    limit,
-    where
-}
+        getFirestore,
+        collection,
+        addDoc,
+        onSnapshot,
+        serverTimestamp,
+        query,
+        orderBy,
+        limit,
+        where,
+        getDocs
+    }
     from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
     // =====================================================
-    // CONFIGURACIÓN DE TU FIREBASE
+    // CONFIGURACIÓN FIREBASE
     // =====================================================
 
-    // CAMBIA ESTOS DATOS POR LOS DE TU PROYECTO.
-
     const firebaseConfig = {
-  apiKey: "AIzaSyAl_h00T4sZB_ShZ-1QPIFnwubjLCmBNvw",
-  authDomain: "bitacora-tta.firebaseapp.com",
-  projectId: "bitacora-tta",
-  storageBucket: "bitacora-tta.firebasestorage.app",
-  messagingSenderId: "393700999811",
-  appId: "1:393700999811:web:ddc42407a7783464e091b6"
-};
+        apiKey: "AIzaSyAl_h00T4sZB_ShZ-1QPIFnwubjLCmBNvw",
+        authDomain: "bitacora-tta.firebaseapp.com",
+        projectId: "bitacora-tta",
+        storageBucket: "bitacora-tta.firebasestorage.app",
+        messagingSenderId: "393700999811",
+        appId: "1:393700999811:web:ddc42407a7783464e091b6"
+    };
 
 
     // =====================================================
     // INICIAR FIREBASE
     // =====================================================
 
-    const app =
-        initializeApp(firebaseConfig);
+    const app = initializeApp(firebaseConfig);
 
-    const db =
-        getFirestore(app);
+    const db = getFirestore(app);
 
     const coleccionBitacora =
-        collection(
-            db,
-            "bitacora_tutorial"
-        );
+        collection(db, "bitacora_tutorial");
 
 
     // =====================================================
@@ -846,87 +840,64 @@
     // =====================================================
 
     const formulario =
-        document.getElementById(
-            "formBitacora"
-        );
+        document.getElementById("formBitacora");
 
     const fecha =
-        document.getElementById(
-            "fecha"
-        );
+        document.getElementById("fecha");
 
     const tta =
-        document.getElementById(
-            "tta"
-        );
+        document.getElementById("tta");
 
     const grupo =
-        document.getElementById(
-            "grupo"
-        );
+        document.getElementById("grupo");
 
     const alumno =
-        document.getElementById(
-            "alumno"
-        );
+        document.getElementById("alumno");
 
     const descripcion =
-        document.getElementById(
-            "descripcion"
-        );
+        document.getElementById("descripcion");
 
     const mensaje =
-        document.getElementById(
-            "mensaje"
-        );
+        document.getElementById("mensaje");
 
     const btnGuardar =
-        document.getElementById(
-            "btnGuardar"
-        );
+        document.getElementById("btnGuardar");
 
     const tablaRegistros =
-        document.getElementById(
-            "tablaRegistros"
-        );
+        document.getElementById("tablaRegistros");
 
     const totalRegistros =
-        document.getElementById(
-            "totalRegistros"
-        );
+        document.getElementById("totalRegistros");
 
     const filtroFecha =
-        document.getElementById(
-            "filtroFecha"
-        );
+        document.getElementById("filtroFecha");
 
     const filtroGrupo =
-        document.getElementById(
-            "filtroGrupo"
-        );
+        document.getElementById("filtroGrupo");
 
     const filtroTTA =
-        document.getElementById(
-            "filtroTTA"
-        );
+        document.getElementById("filtroTTA");
 
     const filtroAlumno =
-        document.getElementById(
-            "filtroAlumno"
-        );
+        document.getElementById("filtroAlumno");
 
     const btnLimpiarFiltros =
-        document.getElementById(
-            "btnLimpiarFiltros"
-        );
+        document.getElementById("btnLimpiarFiltros");
 
     const btnDescargarExcel =
-        document.getElementById(
-            "btnDescargarExcel"
-        );
+        document.getElementById("btnDescargarExcel");
 
+
+    // =====================================================
+    // VARIABLES
+    // =====================================================
+
+    // Estos son SOLO los registros que se muestran en la tabla.
+    // La tabla mostrará únicamente los últimos 10.
 
     let registros = [];
+
+    let cancelarConsulta = null;
 
 
     // =====================================================
@@ -935,21 +906,18 @@
 
     function establecerFechaActual() {
 
-        const hoy =
-            new Date();
+        const hoy = new Date();
 
         const anio =
             hoy.getFullYear();
 
         const mes =
-            String(
-                hoy.getMonth() + 1
-            ).padStart(2, "0");
+            String(hoy.getMonth() + 1)
+                .padStart(2, "0");
 
         const dia =
-            String(
-                hoy.getDate()
-            ).padStart(2, "0");
+            String(hoy.getDate())
+                .padStart(2, "0");
 
         fecha.value =
             `${anio}-${mes}-${dia}`;
@@ -972,14 +940,68 @@
         return Array
             .from(seleccionadas)
             .map(
-                actividad =>
-                    actividad.value
+                actividad => actividad.value
             );
     }
 
 
     // =====================================================
-    // GUARDAR
+    // MOSTRAR MENSAJE
+    // =====================================================
+
+    function mostrarMensaje(texto, tipo) {
+
+        mensaje.innerHTML = "";
+
+        const div =
+            document.createElement("div");
+
+        if (tipo === "exito") {
+
+            div.className =
+                "mensaje-exito";
+
+        } else {
+
+            div.className =
+                "mensaje-error";
+        }
+
+        div.textContent = texto;
+
+        mensaje.appendChild(div);
+
+        setTimeout(() => {
+
+            mensaje.innerHTML = "";
+
+        }, 5000);
+    }
+
+
+    // =====================================================
+    // LIMPIAR FORMULARIO
+    // =====================================================
+
+    function limpiarFormulario() {
+
+        formulario.reset();
+
+        establecerFechaActual();
+
+        document
+            .querySelectorAll(
+                'input[name="actividad"]'
+            )
+            .forEach(
+                checkbox =>
+                    checkbox.checked = false
+            );
+    }
+
+
+    // =====================================================
+    // GUARDAR REGISTRO
     // =====================================================
 
     formulario.addEventListener(
@@ -992,9 +1014,7 @@
                 obtenerActividades();
 
 
-            if (
-                actividades.length === 0
-            ) {
+            if (actividades.length === 0) {
 
                 mostrarMensaje(
                     "Seleccione por lo menos una actividad.",
@@ -1025,27 +1045,36 @@
                 descripcion:
                     descripcion.value.trim(),
 
+                creado:
+                    serverTimestamp(),
+
                 ultimaActualizacion:
                     serverTimestamp()
-
             };
+
 
             try {
 
-                datos.creado =
-                    serverTimestamp();
+                btnGuardar.disabled = true;
+
+                btnGuardar.textContent =
+                    "Guardando...";
+
 
                 await addDoc(
                     coleccionBitacora,
                     datos
                 );
 
+
                 mostrarMensaje(
                     "Registro guardado correctamente.",
                     "exito"
                 );
 
+
                 limpiarFormulario();
+
 
             }
 
@@ -1061,17 +1090,31 @@
 
             }
 
+            finally {
+
+                btnGuardar.disabled = false;
+
+                btnGuardar.textContent =
+                    "Guardar registro";
+            }
+
         }
     );
 
 
     // =====================================================
-    // CONSULTAR FIRESTORE EN TIEMPO REAL
+    // CONSTRUIR CONSULTA PARA LA TABLA
+    // =====================================================
+    //
+    // IMPORTANTE:
+    //
+    // La tabla solamente muestra los últimos 10.
+    //
+    // Los filtros se realizan DIRECTAMENTE EN FIRESTORE.
+    //
     // =====================================================
 
-    let cancelarConsulta = null;
-
-    function construirConsultaFirestore() {
+    function construirConsultaTabla() {
 
         const buscarFecha =
             filtroFecha.value;
@@ -1080,117 +1123,214 @@
             filtroGrupo.value;
 
         const buscarTTA =
-            filtroTTA.value
-            .trim();
+            filtroTTA.value.trim();
 
         const buscarAlumno =
-            filtroAlumno.value
-            .trim();
+            filtroAlumno.value.trim();
+
 
         const condiciones = [];
 
-        // FECHA: consulta directamente en Firestore
+
+        // -------------------------------
+        // FILTRO FECHA
+        // -------------------------------
+
         if (buscarFecha) {
+
             condiciones.push(
-                where("fecha", "==", buscarFecha)
+                where(
+                    "fecha",
+                    "==",
+                    buscarFecha
+                )
             );
         }
 
-        // GRUPO: consulta directamente en Firestore
-        if (buscarGrupo && buscarGrupo !== "todos") {
+
+        // -------------------------------
+        // FILTRO GRUPO
+        // -------------------------------
+
+        if (
+            buscarGrupo &&
+            buscarGrupo !== "todos"
+        ) {
+
             condiciones.push(
-                where("grupo", "==", buscarGrupo)
+                where(
+                    "grupo",
+                    "==",
+                    buscarGrupo
+                )
             );
         }
 
-        // TTA/OE/TB: búsqueda por inicio del texto en Firestore
+
+        // -------------------------------
+        // FILTRO TTA
+        // -------------------------------
+
         if (buscarTTA) {
+
             condiciones.push(
-                where("tta", ">=", buscarTTA),
-                where("tta", "<=", buscarTTA + "\uf8ff")
+                where(
+                    "tta",
+                    ">=",
+                    buscarTTA
+                )
+            );
+
+            condiciones.push(
+                where(
+                    "tta",
+                    "<=",
+                    buscarTTA + "\uf8ff"
+                )
             );
         }
 
-        // ALUMNO: búsqueda por inicio del texto en Firestore
+
+        // -------------------------------
+        // FILTRO ALUMNO
+        // -------------------------------
+
         if (buscarAlumno) {
+
             condiciones.push(
-                where("alumno", ">=", buscarAlumno),
-                where("alumno", "<=", buscarAlumno + "\uf8ff")
+                where(
+                    "alumno",
+                    ">=",
+                    buscarAlumno
+                )
+            );
+
+            condiciones.push(
+                where(
+                    "alumno",
+                    "<=",
+                    buscarAlumno + "\uf8ff"
+                )
             );
         }
+
+
+        // =================================================
+        // IMPORTANTE
+        //
+        // limit(10) solamente afecta a la TABLA.
+        //
+        // No afecta a Excel.
+        // =================================================
 
         return query(
+
             coleccionBitacora,
+
             ...condiciones,
-            orderBy("creado", "desc"),
+
+            orderBy(
+                "creado",
+                "desc"
+            ),
+
             limit(10)
         );
     }
 
 
+    // =====================================================
+    // CONSULTAR FIRESTORE PARA LA TABLA
+    // =====================================================
+
     function consultarFirestore() {
 
-        // Cancela la consulta anterior para evitar varios listeners activos.
         if (cancelarConsulta) {
+
             cancelarConsulta();
+
             cancelarConsulta = null;
         }
 
+
         tablaRegistros.innerHTML = `
             <tr>
-                <td colspan="6" class="sin-registros">
+                <td colspan="6"
+                    class="sin-registros">
                     Consultando base de datos...
                 </td>
             </tr>
         `;
 
-        const consulta = construirConsultaFirestore();
 
-        cancelarConsulta = onSnapshot(
-            consulta,
+        const consulta =
+            construirConsultaTabla();
 
-            (snapshot) => {
 
-                registros = [];
+        cancelarConsulta =
+            onSnapshot(
 
-                snapshot.forEach(
-                    documento => {
+                consulta,
 
-                        registros.push({
-                            id: documento.id,
-                            ...documento.data()
-                        });
+                (snapshot) => {
 
-                    }
-                );
+                    registros = [];
 
-                // La tabla NO filtra los registros.
-                // Solo muestra exactamente lo que devolvió Firestore.
-                mostrarRegistros();
-            },
 
-            (error) => {
+                    snapshot.forEach(
+                        documento => {
 
-                console.error("Error en consulta Firestore:", error);
+                            registros.push({
 
-                tablaRegistros.innerHTML = `
-                    <tr>
-                        <td colspan="6" class="sin-registros">
-                            Error al consultar Firebase.
-                            <br>
-                            ${error.message}
-                        </td>
-                    </tr>
-                `;
+                                id:
+                                    documento.id,
 
-                totalRegistros.textContent = "0";
-            }
-        );
+                                ...documento.data()
+
+                            });
+
+                        }
+                    );
+
+
+                    mostrarRegistros();
+
+                },
+
+
+                (error) => {
+
+                    console.error(
+                        "Error en consulta Firestore:",
+                        error
+                    );
+
+
+                    tablaRegistros.innerHTML = `
+                        <tr>
+                            <td colspan="6"
+                                class="sin-registros">
+
+                                Error al consultar Firebase.
+
+                                <br><br>
+
+                                ${error.message}
+
+                            </td>
+                        </tr>
+                    `;
+
+
+                    totalRegistros.textContent =
+                        "0";
+                }
+            );
     }
 
 
     // =====================================================
-    // MOSTRAR RESULTADOS DE FIRESTORE
+    // MOSTRAR REGISTROS EN TABLA
     // =====================================================
 
     function mostrarRegistros() {
@@ -1198,20 +1338,27 @@
         totalRegistros.textContent =
             registros.length;
 
+
         tablaRegistros.innerHTML = "";
+
 
         if (registros.length === 0) {
 
             tablaRegistros.innerHTML = `
                 <tr>
-                    <td colspan="6" class="sin-registros">
-                        No existen registros para la consulta.
+                    <td colspan="6"
+                        class="sin-registros">
+
+                        No existen registros
+                        para la consulta.
+
                     </td>
                 </tr>
             `;
 
             return;
         }
+
 
         registros.forEach(
 
@@ -1220,46 +1367,76 @@
                 const fila =
                     document.createElement("tr");
 
+
+                // -----------------------------
                 // FECHA
+                // -----------------------------
+
                 const tdFecha =
                     document.createElement("td");
 
                 tdFecha.textContent =
-                    convertirFecha(registro.fecha);
+                    convertirFecha(
+                        registro.fecha
+                    );
 
+
+                // -----------------------------
                 // TTA
+                // -----------------------------
+
                 const tdTTA =
                     document.createElement("td");
 
                 tdTTA.textContent =
                     registro.tta || "";
 
+
+                // -----------------------------
                 // GRUPO
+                // -----------------------------
+
                 const tdGrupo =
                     document.createElement("td");
 
                 tdGrupo.textContent =
                     registro.grupo || "";
 
+
+                // -----------------------------
                 // ALUMNO
+                // -----------------------------
+
                 const tdAlumno =
                     document.createElement("td");
 
                 tdAlumno.textContent =
-                    registro.alumno || "No especificado";
+                    registro.alumno ||
+                    "No especificado";
 
+
+                // -----------------------------
                 // ACTIVIDADES
+                // -----------------------------
+
                 const tdActividades =
                     document.createElement("td");
 
-                if (Array.isArray(registro.actividades)) {
+
+                if (
+                    Array.isArray(
+                        registro.actividades
+                    )
+                ) {
 
                     registro.actividades.forEach(
 
                         actividad => {
 
                             const etiqueta =
-                                document.createElement("span");
+                                document.createElement(
+                                    "span"
+                                );
 
                             etiqueta.className =
                                 "actividad-etiqueta";
@@ -1270,24 +1447,38 @@
                             tdActividades.appendChild(
                                 etiqueta
                             );
-
                         }
                     );
                 }
 
+
+                // -----------------------------
                 // DESCRIPCIÓN
+                // -----------------------------
+
                 const tdDescripcion =
                     document.createElement("td");
 
                 tdDescripcion.textContent =
                     registro.descripcion || "";
 
+
+                // -----------------------------
+                // AGREGAR FILA
+                // -----------------------------
+
                 fila.appendChild(tdFecha);
+
                 fila.appendChild(tdTTA);
+
                 fila.appendChild(tdGrupo);
+
                 fila.appendChild(tdAlumno);
+
                 fila.appendChild(tdActividades);
+
                 fila.appendChild(tdDescripcion);
+
 
                 tablaRegistros.appendChild(fila);
             }
@@ -1296,27 +1487,452 @@
 
 
     // =====================================================
-    // FILTROS
+    // CONSTRUIR CONSULTA PARA EXCEL
+    // =====================================================
+    //
+    // ESTA CONSULTA NO TIENE limit(10).
+    //
+    // Por lo tanto:
+    //
+    // Excel puede obtener TODOS los registros de Firestore.
+    //
     // =====================================================
 
-    // Primera consulta: últimos 10 registros directamente desde Firestore
-    consultarFirestore();
+    function construirConsultaExcel() {
 
+        const buscarFecha =
+            filtroFecha.value;
+
+        const buscarGrupo =
+            filtroGrupo.value;
+
+        const buscarTTA =
+            filtroTTA.value.trim();
+
+        const buscarAlumno =
+            filtroAlumno.value.trim();
+
+
+        const condiciones = [];
+
+
+        // -------------------------------
+        // FECHA
+        // -------------------------------
+
+        if (buscarFecha) {
+
+            condiciones.push(
+                where(
+                    "fecha",
+                    "==",
+                    buscarFecha
+                )
+            );
+        }
+
+
+        // -------------------------------
+        // GRUPO
+        // -------------------------------
+
+        if (
+            buscarGrupo &&
+            buscarGrupo !== "todos"
+        ) {
+
+            condiciones.push(
+                where(
+                    "grupo",
+                    "==",
+                    buscarGrupo
+                )
+            );
+        }
+
+
+        // -------------------------------
+        // TTA
+        // -------------------------------
+
+        if (buscarTTA) {
+
+            condiciones.push(
+                where(
+                    "tta",
+                    ">=",
+                    buscarTTA
+                )
+            );
+
+            condiciones.push(
+                where(
+                    "tta",
+                    "<=",
+                    buscarTTA + "\uf8ff"
+                )
+            );
+        }
+
+
+        // -------------------------------
+        // ALUMNO
+        // -------------------------------
+
+        if (buscarAlumno) {
+
+            condiciones.push(
+                where(
+                    "alumno",
+                    ">=",
+                    buscarAlumno
+                )
+            );
+
+            condiciones.push(
+                where(
+                    "alumno",
+                    "<=",
+                    buscarAlumno + "\uf8ff"
+                )
+            );
+        }
+
+
+        // =================================================
+        // AQUÍ NO HAY limit(10)
+        // =================================================
+
+        return query(
+
+            coleccionBitacora,
+
+            ...condiciones,
+
+            orderBy(
+                "creado",
+                "desc"
+            )
+        );
+    }
+
+
+    // =====================================================
+    // DESCARGAR EXCEL
+    // =====================================================
+    //
+    // IMPORTANTE:
+    //
+    // El Excel NO utiliza "registros".
+    //
+    // Hace una NUEVA CONSULTA DIRECTAMENTE A FIRESTORE.
+    //
+    // =====================================================
+
+    btnDescargarExcel.addEventListener(
+
+        "click",
+
+        async () => {
+
+            try {
+
+                btnDescargarExcel.disabled = true;
+
+                btnDescargarExcel.textContent =
+                    "⏳ Consultando base de datos...";
+
+
+                // -----------------------------------------
+                // CONSULTAR FIRESTORE
+                // -----------------------------------------
+
+                const consultaExcel =
+                    construirConsultaExcel();
+
+
+                const snapshot =
+                    await getDocs(
+                        consultaExcel
+                    );
+
+
+                // -----------------------------------------
+                // CONVERTIR DOCUMENTOS
+                // -----------------------------------------
+
+                const registrosExcel = [];
+
+
+                snapshot.forEach(
+
+                    documento => {
+
+                        registrosExcel.push({
+
+                            id:
+                                documento.id,
+
+                            ...documento.data()
+
+                        });
+
+                    }
+                );
+
+
+                // -----------------------------------------
+                // VERIFICAR
+                // -----------------------------------------
+
+                if (
+                    registrosExcel.length === 0
+                ) {
+
+                    mostrarMensaje(
+                        "No existen registros para descargar.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+                // -----------------------------------------
+                // ORDENAR POR FECHA DE CREACIÓN
+                // -----------------------------------------
+
+                registrosExcel.sort(
+
+                    (a, b) => {
+
+                        let fechaA = 0;
+                        let fechaB = 0;
+
+
+                        if (
+                            a.creado &&
+                            typeof a.creado.toMillis ===
+                            "function"
+                        ) {
+
+                            fechaA =
+                                a.creado.toMillis();
+                        }
+
+
+                        if (
+                            b.creado &&
+                            typeof b.creado.toMillis ===
+                            "function"
+                        ) {
+
+                            fechaB =
+                                b.creado.toMillis();
+                        }
+
+
+                        return fechaB - fechaA;
+                    }
+                );
+
+
+                // -----------------------------------------
+                // PREPARAR EXCEL
+                // -----------------------------------------
+
+                const datosExcel =
+                    registrosExcel.map(
+
+                        (registro, indice) => {
+
+                            return {
+
+                                "No.":
+                                    indice + 1,
+
+                                "Fecha":
+                                    convertirFecha(
+                                        registro.fecha || ""
+                                    ),
+
+                                "TTA/OE/TB":
+                                    registro.tta || "",
+
+                                "Grupo":
+                                    registro.grupo || "",
+
+                                "Alumno":
+                                    registro.alumno || "",
+
+                                "Actividad":
+                                    Array.isArray(
+                                        registro.actividades
+                                    )
+                                    ?
+                                    registro.actividades.join(
+                                        ", "
+                                    )
+                                    :
+                                    "",
+
+                                "Actividades desarrolladas / Observaciones":
+                                    registro.descripcion || ""
+
+                            };
+                        }
+                    );
+
+
+                // -----------------------------------------
+                // CREAR HOJA
+                // -----------------------------------------
+
+                const hoja =
+                    XLSX.utils.json_to_sheet(
+                        datosExcel
+                    );
+
+
+                hoja["!cols"] = [
+
+                    { wch: 7 },
+
+                    { wch: 14 },
+
+                    { wch: 40 },
+
+                    { wch: 10 },
+
+                    { wch: 35 },
+
+                    { wch: 60 },
+
+                    { wch: 80 }
+
+                ];
+
+
+                // -----------------------------------------
+                // CREAR LIBRO
+                // -----------------------------------------
+
+                const libro =
+                    XLSX.utils.book_new();
+
+
+                XLSX.utils.book_append_sheet(
+
+                    libro,
+
+                    hoja,
+
+                    "Bitácora"
+
+                );
+
+
+                // -----------------------------------------
+                // NOMBRE DEL ARCHIVO
+                // -----------------------------------------
+
+                const ahora =
+                    new Date();
+
+
+                const fechaArchivo =
+
+                    ahora.getFullYear()
+                    + "-"
+                    + String(
+                        ahora.getMonth() + 1
+                    ).padStart(2, "0")
+                    + "-"
+                    + String(
+                        ahora.getDate()
+                    ).padStart(2, "0");
+
+
+                // -----------------------------------------
+                // DESCARGAR
+                // -----------------------------------------
+
+                XLSX.writeFile(
+
+                    libro,
+
+                    "Bitacora_TTA_"
+                    + fechaArchivo
+                    + ".xlsx"
+
+                );
+
+
+                mostrarMensaje(
+
+                    "Excel generado correctamente con "
+                    + registrosExcel.length
+                    + " registros consultados directamente desde Firestore.",
+
+                    "exito"
+
+                );
+
+            }
+
+            catch(error) {
+
+                console.error(
+                    "Error al generar Excel:",
+                    error
+                );
+
+
+                mostrarMensaje(
+
+                    "Error al generar Excel: "
+                    + error.message,
+
+                    "error"
+
+                );
+
+            }
+
+            finally {
+
+                btnDescargarExcel.disabled =
+                    false;
+
+                btnDescargarExcel.textContent =
+                    "📊 Descargar Excel";
+            }
+
+        }
+    );
+
+
+    // =====================================================
+    // FILTROS
+    // =====================================================
 
     filtroFecha.addEventListener(
         "change",
         consultarFirestore
     );
 
+
     filtroGrupo.addEventListener(
         "change",
         consultarFirestore
     );
 
+
     filtroTTA.addEventListener(
         "change",
         consultarFirestore
     );
+
 
     filtroAlumno.addEventListener(
         "change",
@@ -1324,149 +1940,96 @@
     );
 
 
+    // =====================================================
+    // LIMPIAR FILTROS
+    // =====================================================
+
     btnLimpiarFiltros.addEventListener(
 
         "click",
 
         () => {
 
-            filtroFecha.value =
-                "";
+            filtroFecha.value = "";
 
-            filtroGrupo.value =
-                "";
+            filtroGrupo.value = "";
 
-            filtroTTA.value =
-                "";
+            filtroTTA.value = "";
 
-            filtroAlumno.value =
-                "";
+            filtroAlumno.value = "";
 
             consultarFirestore();
 
         }
-
     );
 
 
     // =====================================================
-    // DESCARGAR BASE DE DATOS COMPLETA EN EXCEL
+    // CONVERTIR FECHA
     // =====================================================
 
-    btnDescargarExcel.addEventListener(
-        "click",
-        () => {
+    function convertirFecha(valor) {
 
-            if (registros.length === 0) {
-
-                mostrarMensaje(
-                    "No existen registros para descargar.",
-                    "error"
-                );
-
-                return;
-            }
-
-
-            const datosExcel =
-                registros.map(
-                    (registro, indice) => {
-
-                        return {
-
-                            "No.":
-                                indice + 1,
-
-                            "Fecha":
-                                convertirFecha(
-                                    registro.fecha || ""
-                                ),
-
-                            "TTA":
-                                registro.tta || "",
-
-                            "Grupo":
-                                registro.grupo || "",
-
-                            "Alumno":
-                                registro.alumno || "",
-
-                            "Actividad":
-                                Array.isArray(
-                                    registro.actividades
-                                )
-                                ? registro.actividades.join(", ")
-                                : "",
-
-                            "Actividades desarrolladas / Observaciones":
-                                registro.descripcion || ""
-
-                        };
-
-                    }
-                );
-
-
-            const hoja =
-                XLSX.utils.json_to_sheet(
-                    datosExcel
-                );
-
-
-            hoja["!cols"] = [
-                { wch: 7 },
-                { wch: 14 },
-                { wch: 38 },
-                { wch: 10 },
-                { wch: 35 },
-                { wch: 55 },
-                { wch: 70 }
-            ];
-
-
-            const libro =
-                XLSX.utils.book_new();
-
-
-            XLSX.utils.book_append_sheet(
-                libro,
-                hoja,
-                "Bitácora"
-            );
-
-
-            const ahora =
-                new Date();
-
-            const fechaArchivo =
-                ahora.getFullYear()
-                + "-"
-                + String(
-                    ahora.getMonth() + 1
-                ).padStart(2, "0")
-                + "-"
-                + String(
-                    ahora.getDate()
-                ).padStart(2, "0");
-
-
-            XLSX.writeFile(
-                libro,
-                "Bitacora_TTA_"
-                + fechaArchivo
-                + ".xlsx"
-            );
-
-
-            mostrarMensaje(
-                "Base de datos descargada en Excel correctamente.",
-                "exito"
-            );
-
+        if (!valor) {
+            return "";
         }
-    );
+
+
+        // Si viene como YYYY-MM-DD
+        if (
+            typeof valor === "string" &&
+            /^\d{4}-\d{2}-\d{2}$/.test(valor)
+        ) {
+
+            const partes =
+                valor.split("-");
+
+            return (
+                partes[2]
+                + "/"
+                + partes[1]
+                + "/"
+                + partes[0]
+            );
+        }
+
+
+        // Si es Timestamp de Firebase
+        if (
+            valor &&
+            typeof valor.toDate === "function"
+        ) {
+
+            const fecha =
+                valor.toDate();
+
+
+            return (
+                String(
+                    fecha.getDate()
+                ).padStart(2, "0")
+                + "/"
+                +
+                String(
+                    fecha.getMonth() + 1
+                ).padStart(2, "0")
+                + "/"
+                +
+                fecha.getFullYear()
+            );
+        }
+
+
+        return String(valor);
+    }
+
+
+    // =====================================================
+    // INICIAR
+    // =====================================================
+
+    consultarFirestore();
 
 </script>
-
 </body>
 </html>
